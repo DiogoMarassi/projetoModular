@@ -1,5 +1,6 @@
 # projetoModular
 
+```text
 projeto_modular/
 │
 ├── modulos/                        # Pasta que agrupa todos os módulos do sistema
@@ -26,12 +27,13 @@ projeto_modular/
 │   └── relatorios.json
 │
 ├── tests/                           # Testes automatizados (pytest)
-│   ├── data/                        # Json de persistência para os testes (para não mecher nos jsons da produção)
+│   ├── data/                        # Json de persistência para os testes (para não mexer nos jsons da produção)
 │   ├── test_notificacao.py
 │   ├── test_lancamento.py
 │   ├── test_planejamento.py
 │   └── test_relatorio.py
 │
 ├── main.py                          # Arquivo principal que orquestra os módulos
-│
-└── README.md                         # (Opcional) Documentação do projeto
+├── pytest.ini                        # Configuração do pytest
+├── .gitignore                        # Arquivos e pastas ignoradas no git
+└── README.md                         # Documentação do projeto
