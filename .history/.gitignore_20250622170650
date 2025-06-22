@@ -1,0 +1,49 @@
+# Ambiente virtual
+venv/
+
+# Arquivos de cache Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Cache de pytest
+.pytest_cache/
+
+# Configurações do VSCode
+.vscode/
+
+# Arquivos de persistência de dados (produção e testes)
+data/*.json
+tests/data/*.json
+
+# Arquivos temporários
+*.log
+*.tmp
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de backup
+*~
+*.bak
+
+# Arquivos de ambiente e configuração sensível
+.env
+config.json
+
+# Arquivos gerados por matplotlib, Jupyter, etc.
+.ipynb_checkpoints/
+
+# Arquivos de relatórios de testes ou coverage
+htmlcov/
+.coverage
+coverage.xml
+nosetests.xml
+test-results.xml
+
+# Distribuição de pacotes (caso futuramente use setuptools)
+build/
+dist/
+*.egg-info/
