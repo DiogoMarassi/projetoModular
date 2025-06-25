@@ -46,11 +46,10 @@ def validar_lancamento(lancamento):
     )
 
 
-def agrupar_por_categoria(tipo):
-    lancamentos = carregar_lancamentos()
+def agrupar_por_categoria(lancamentos_especificos, tipo):
     categorias = {}
     total = 0.0
-    for l in lancamentos:
+    for l in lancamentos_especificos:
         if l["tipo"] == tipo:
             cat = l["categoria"]
             categorias[cat] = categorias.get(cat, 0.0) + l["valor"]
@@ -140,13 +139,14 @@ def gerar_relatorio_financeiro(periodo):
         if validar_lancamento(l) and data_inicio <= l["data"] < data_fim
     ]
 
+
     # Erro 404: se nao tiver lancamento neste periodo
     if not lancamentos_periodo:
         return {"Status": 404, "Content": "Nenhum lançamento encontrado"}
 
     saldo_inicial = calcular_saldo_antes(data_inicio)
-    receitas_por_cat, soma_receitas_periodo = agrupar_por_categoria("receita")
-    despesas_por_cat, soma_despesas_periodo = agrupar_por_categoria("despesa")
+    receitas_por_cat, soma_receitas_periodo = agrupar_por_categoria(lancamentos_periodo, "receita")
+    despesas_por_cat, soma_despesas_periodo = agrupar_por_categoria(lancamentos_periodo, "despesa")
     saldo_final = saldo_inicial + soma_receitas_periodo - soma_despesas_periodo
     variacao = saldo_final - saldo_inicial
 
@@ -170,16 +170,19 @@ def categoria_maior_dif_despesa(relatorioano1, relatorioano2):
     categorias = set(relatorioano1["despesas"].keys()).union(relatorioano2["despesas"].keys())
     categorias.discard("total")
 
-    cat_dif = []
-    cat_maior_dif = {}
-    max_dif = 0
+    categorias_dif = []
+    categoria_maior_gasto = {"categoria": "NONE",
+                "valorAno1": -1,
+                "valorAno2": -1,
+                "diferenca": -1}
+    max_dif = -1
 
     for cat in categorias:
         valor1 = relatorioano1["despesas"].get(cat, 0)
         valor2 = relatorioano2["despesas"].get(cat, 0)
         diferenca = valor2 - valor1
 
-        cat_dif.append({
+        categorias_dif.append({
             "categoria": cat,
             "valorAno1": round(valor1, 2),
             "valorAno2": round(valor2, 2),
@@ -187,15 +190,16 @@ def categoria_maior_dif_despesa(relatorioano1, relatorioano2):
         })
 
         if diferenca > max_dif:
+            print("TOTO")
             max_dif = diferenca
-            cat_maior_dif = {
+            categoria_maior_gasto = {
                 "categoria": cat,
                 "valorAno1": round(valor1, 2),
                 "valorAno2": round(valor2, 2),
                 "diferenca": round(diferenca, 2),
             }
 
-    return cat_dif, cat_maior_dif
+    return categorias_dif, categoria_maior_gasto
 
 
 
@@ -289,30 +293,46 @@ def gerar_comparativo(ano1, ano2):
     diferenca_saldoFinal = relatorioano2["saldoFinal"] - relatorioano1["saldoFinal"]
 
     gastos_por_categoria, cat_mais_gastos = categoria_maior_dif_despesa(relatorioano1, relatorioano2)
+    print(cat_mais_gastos)
 
     resumo = (
-    f"Em {ano2}, as receitas variaram em {round(diferenca_receitas, 2)}, "
-    f"despesas em {round(diferenca_despesas, 2)} e o saldo final mudou em {round(diferenca_saldoFinal, 2)}.\n"
-    #f"A categoria com a maior aumentaçao de gastos vem da categoria '{cat_mais_gastos['categoria']}': {cat_mais_gastos['valorAno1']} durante o ano {ano1} contra {cat_mais_gastos['valorAno2']} em {ano2}"
-    #f"(+{cat_mais_gastos['diferenca']}).\n"
-    "As categorias onde os gastos aumentaram são:\n"
-    )
-    
-    for item in gastos_por_categoria:
-        if item['diferenca'] > 0:
-            resumo += f" - {item['categoria']}: +{item['diferenca']}\n"
-    
-    resumo += f"As categorias onde os gastos baixaram são:\n"
-    for item in gastos_por_categoria:
-        if item['diferenca'] < 0:
-            resumo += f" - {item['categoria']}: {item['diferenca']}\n"
+    f"Em {ano2}, as receitas variaram em R$ {diferenca_receitas:.2f}, "
+    f"as despesas em R$ {diferenca_despesas:.2f}, e o saldo final mudou em R$ {diferenca_saldoFinal:.2f}.\n"
+)
+
+    if (cat_mais_gastos["categoria"] == "NONE"):
+        resumo += "Não houve aumento em nenhuma categoria de despesas.\n"
+    else:
+        resumo += (
+            f"Cuidado com os gastos em '{cat_mais_gastos['categoria']}': "
+            f"R$ {cat_mais_gastos['valorAno1']:.2f} em {ano1} contra "
+            f"R$ {cat_mais_gastos['valorAno2']:.2f} em {ano2} "
+            f"(+R$ {cat_mais_gastos['diferenca']:.2f}).\n"
+        )
+
+    resumo += "\nAumento das despesas:\n"
+    aumentos = [item for item in gastos_por_categoria if item['diferenca'] > 0]
+    if aumentos:
+        for item in aumentos:
+            resumo += f" - {item['categoria']}: +R$ {item['diferenca']:.2f}\n"
+    else:
+        resumo += "Nenhuma categoria teve aumento de despesas.\n"
+
+    resumo += "\nRedução das despesas:\n"
+    reducoes = [item for item in gastos_por_categoria if item['diferenca'] < 0]
+    if reducoes:
+        for item in reducoes:
+            resumo += f" - {item['categoria']}: R$ {item['diferenca']:.2f}\n"
+    else:
+        resumo += "Nenhuma categoria teve redução de despesas.\n"
+
 
 
     comparativo = {
         "ano1": { "receitas": relatorioano1["receitas"],  "despesas": relatorioano1["despesas"], "saldoFinal": relatorioano1["saldoFinal"]},
         "ano2": { "receitas": relatorioano2["receitas"],  "despesas": relatorioano2["despesas"], "saldoFinal": relatorioano2["saldoFinal"]},
         "diferencas": { "receitas": diferenca_receitas, "despesas": diferenca_despesas, "saldoFinal": diferenca_saldoFinal},
-        #"categoriaComMaiorDiferenca": { "categoria": cat_mais_gastos['categoria'], "valorAno1": cat_mais_gastos['valorAno1'], "valorAno2": cat_mais_gastos['valorAno2'], "diferenca": cat_mais_gastos['diferenca']},
+        "categoriaComMaiorDiferenca": { "categoria": cat_mais_gastos['categoria'], "valorAno1": cat_mais_gastos['valorAno1'], "valorAno2": cat_mais_gastos['valorAno2'], "diferenca": cat_mais_gastos['diferenca']},
         "resumo": resumo,
     }
         
