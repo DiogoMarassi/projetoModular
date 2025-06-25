@@ -58,6 +58,7 @@ def listarNotificacoes():
     else:
         return {"Error": 404, "Content": "Usuário não encontrado"}
 
+
 # Função de acesso: Salvar uma nova notificação local
 def salvarNotificacao(conteudo):
     """
@@ -73,6 +74,7 @@ def salvarNotificacao(conteudo):
     _notificacoes.append(nova)
     _salvar_notificacoes()
     return {"Success": 200, "Content": _notificacoes}
+
 
 # Função de acesso: Enviar notificação (simula envio para Telegram)
 def enviarNotificacao(chatId, conteudo):
