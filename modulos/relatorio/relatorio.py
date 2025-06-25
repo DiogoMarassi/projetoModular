@@ -139,6 +139,7 @@ def gerar_relatorio_financeiro(periodo):
         if validar_lancamento(l) and data_inicio <= l["data"] < data_fim
     ]
 
+    print(lancamentos_periodo)
 
     # Erro 404: se nao tiver lancamento neste periodo
     if not lancamentos_periodo:
@@ -164,44 +165,59 @@ def gerar_relatorio_financeiro(periodo):
     return {"Status": 200, "Content": relatorio}
 
 
-
-
 def categoria_maior_dif_despesa(relatorioano1, relatorioano2):
-    categorias = set(relatorioano1["despesas"].keys()).union(relatorioano2["despesas"].keys())
+    # Unir todas as categorias presentes em receitas e despesas dos dois anos
+    categorias = (
+        set(relatorioano1["despesas"].keys()) |
+        set(relatorioano2["despesas"].keys()) |
+        set(relatorioano1["receitas"].keys()) |
+        set(relatorioano2["receitas"].keys())
+    )
     categorias.discard("total")
 
     categorias_dif = []
-    categoria_maior_gasto = {"categoria": "NONE",
-                "valorAno1": -1,
-                "valorAno2": -1,
-                "diferenca": -1}
-    max_dif = -1
+    categoria_maior_gasto = {
+        "categoria": None,
+        "valorAno1": 0,
+        "valorAno2": 0,
+        "diferenca": float('-inf')
+    }
 
     for cat in categorias:
-        valor1 = relatorioano1["despesas"].get(cat, 0)
-        valor2 = relatorioano2["despesas"].get(cat, 0)
+        # Obtém os valores de despesas e receitas para os dois anos
+        despesa1 = relatorioano1["despesas"].get(cat, 0)
+        receita1 = relatorioano1["receitas"].get(cat, 0)
+        despesa2 = relatorioano2["despesas"].get(cat, 0)
+        receita2 = relatorioano2["receitas"].get(cat, 0)
+
+        # Define valor1 e valor2 com base no sinal da diferença entre receita e despesa
+        if despesa1 >= receita1:
+            valor1 = despesa1
+        else:
+            valor1 = -receita1
+        if despesa2 >= receita2:
+            valor2 = despesa2
+        else:
+            valor2 = -receita2
+
         diferenca = valor2 - valor1
 
         categorias_dif.append({
             "categoria": cat,
             "valorAno1": round(valor1, 2),
             "valorAno2": round(valor2, 2),
-            "diferenca": round(diferenca, 2),
+            "diferenca": round(diferenca, 2)
         })
 
-        if diferenca > max_dif:
-            print("TOTO")
-            max_dif = diferenca
+        if diferenca > categoria_maior_gasto["diferenca"]:
             categoria_maior_gasto = {
                 "categoria": cat,
                 "valorAno1": round(valor1, 2),
                 "valorAno2": round(valor2, 2),
-                "diferenca": round(diferenca, 2),
+                "diferenca": round(diferenca, 2)
             }
 
     return categorias_dif, categoria_maior_gasto
-
-
 
 
 def gerar_comparativo(ano1, ano2):
@@ -301,7 +317,7 @@ def gerar_comparativo(ano1, ano2):
 )
 
     if (cat_mais_gastos["categoria"] == "NONE"):
-        resumo += "Não houve aumento em nenhuma categoria de despesas.\n"
+        resumo += "Não houve aumento em nenhuma categoria de gastos.\n"
     else:
         resumo += (
             f"Cuidado com os gastos em '{cat_mais_gastos['categoria']}': "
