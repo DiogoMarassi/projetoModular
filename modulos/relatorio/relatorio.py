@@ -166,11 +166,12 @@ def gerar_relatorio_financeiro(periodo, PDF=False):
     variacao = saldo_final - saldo_inicial
 
     resumo = (
-        f"Saldo inicial no dia {data_inicio.strftime('%Y-%m-%d')}: R$ {round(saldo_inicial,2)}\n"
-        f"Saldo final no dia {data_fim.strftime('%Y-%m-%d')}: R$ {round(saldo_final,2)}\n"
-        f"Total de receitas nesse período: R$ {round(soma_receitas_periodo, 2)}\n"
-        f"Total de despesas nesse período: R$ {round(soma_despesas_periodo, 2)}\n"
-        f"Variação do saldo: R$ {round(variacao, 2)}\n"
+        f"Relatório financeiro do dia {data_inicio.strftime('%Y-%m-%d')} até o dia {data_fim.strftime('%Y-%m-%d')}\n"
+        f"  *    Saldo final: R$ {round(saldo_inicial,2)}\n"
+        f"  *    Saldo final: R$ {round(saldo_final,2)}\n"
+        f"  *    Total de receitas nesse período: R$ {round(soma_receitas_periodo, 2)}\n"
+        f"  *    Total de despesas nesse período: R$ {round(soma_despesas_periodo, 2)}\n"
+        f"  *    Variação do saldo: R$ {round(variacao, 2)}\n"
         )
 
 
@@ -365,56 +366,58 @@ def gerar_comparativo(ano1, ano2):
     gastos_por_categoria, [cat_mais_gasto, cat_mais_ganho] = categoria_maior_dif_despesa(relatorioano1, relatorioano2)
 
     resumo = (
-    f"Entre os anos de {ano1} e {ano2}, as receitas totais variaram em R$ {diferenca_receitas:.2f}, "
+    f"Entre os anos respectivos de {ano1} e {ano2}, as receitas totais variaram em R$ {diferenca_receitas:.2f}, "
     f"e as despesas em R$ {diferenca_despesas:.2f}.\n"
     f"No fim de {ano1}, o saldo final era de R$ {relatorioano1['saldoFinal']}, "
     f"e passou a R$ {relatorioano2['saldoFinal']} no fim de {ano2}.\n"
     )
 
     if cat_mais_gasto["categoria"] is None:
-        resumo += "Nenhuma variação significativa de gasto foi detectada.\n"
+        resumo += "-- Nenhuma variação significativa de gasto foi detectada. --\n"
     if cat_mais_ganho["categoria"] is None:
-        resumo += "Nenhuma variação significativa de ganho foi detectada.\n"
+        resumo += "-- Nenhuma variação significativa de ganho foi detectada. --\n"
     else:
-        resumo += f"\nAtenção aos gastos na categoria '{cat_mais_gasto['categoria']}':\n"
+        resumo += f"\n--> Atenção aos gastos na categoria '{cat_mais_gasto['categoria']}':\n"
         if cat_mais_gasto["mesmo_tipo"] == 0:
-            resumo += "O que era positivo no primeiro ano virou altamente negativo no segundo ano.\n"
+            resumo += "         O que era positivo no primeiro ano virou altamente negativo no segundo ano.\n"
         else:
-            resumo += "O que já era negativo no primeiro ano continuou negativo no segundo.\n"
+            resumo += "         O que já era negativo no primeiro ano continuou negativo ou nulo no segundo:\n"
 
         resumo += (
-            f"Totalizando gastos e beneficios em {ano1}: R$ {cat_mais_gasto['valorAno1']:.2f} na conta, contra "
-            f"R$ {cat_mais_gasto['valorAno2']:.2f} em {ano2} "
-            f"({cat_mais_gasto['variacao']:.2f} de variação).\n"
+            f"          Somando os gastos e benefícios:\n"
+            f"          *   R$ {cat_mais_gasto['valorAno1']:.2f} em {ano1};\n"
+            f"          *   R$ {cat_mais_gasto['valorAno2']:.2f} em {ano2};\n"
+            f"          gerando R$ {cat_mais_gasto['variacao']:.2f} de variação.\n"
         )
 
-        resumo += f"\nEntretanto houve uma melhoria na categoria '{cat_mais_ganho['categoria']}':\n"
+        resumo += f"\n--> Entretanto houve uma melhoria na categoria '{cat_mais_ganho['categoria']}':\n"
         if cat_mais_ganho["mesmo_tipo"] == 0:
-            resumo += "O que era negativo no primeiro ano virou muito positivo no segundo!\n"
+            resumo += "         O que era negativo no primeiro ano virou muito positivo no segundo!\n"
         else:
-            resumo += "O que já era positivo no primeiro ano se manteve positivo no segundo.\n"
+            resumo += "         O que já era positivo no primeiro ano se manteve positivo ou nulo no segundo.\n"
 
         resumo += (
-            f"Totalizando gastos e beneficios em {ano1}: R$ {cat_mais_ganho['valorAno1']:.2f} na conta, contra "
-            f"R$ {cat_mais_ganho['valorAno2']:.2f} em {ano2} "
-            f"({cat_mais_ganho['variacao']:.2f} de variação).\n"
+            f"          Somando os gastos e benefícios:\n"
+            f"          *   R$ {cat_mais_ganho['valorAno1']:.2f} em {ano1};\n"
+            f"          *   R$ {cat_mais_ganho['valorAno2']:.2f} em {ano2};\n"
+            f"          gerando R$ {cat_mais_ganho['variacao']:.2f} de variação.\n"
         )
 
-    resumo += "\nAumentos nas despesas:\n"
+    resumo += "\n--> Aumentos nas despesas:\n"
     aumentos = [item for item in gastos_por_categoria if item['variacao'] > 0]
     if aumentos:
         for item in aumentos:
-            resumo += f" - {item['categoria']}: +R$ {item['variacao']:.2f}\n"
+            resumo += f"     - {item['categoria']}: +R$ {item['variacao']:.2f}\n"
     else:
-        resumo += "Nenhuma categoria teve aumento de despesas.\n"
+        resumo += "-- Nenhuma categoria teve aumento de despesas. --\n"
 
-    resumo += "\nReduções nas despesas:\n"
+    resumo += "\n--> Reduções nas despesas:\n"
     reducoes = [item for item in gastos_por_categoria if item['variacao'] < 0]
     if reducoes:
         for item in reducoes:
-            resumo += f" - {item['categoria']}: R$ {item['variacao']:.2f}\n"
+            resumo += f"     - {item['categoria']}: R$ {item['variacao']:.2f}\n"
     else:
-        resumo += "Nenhuma categoria teve redução de despesas.\n"
+        resumo += "-- Nenhuma categoria teve redução de despesas. --\n"
 
     converter_PDF(resumo, "./tests/pdf_files/comparativos.pdf")
 
