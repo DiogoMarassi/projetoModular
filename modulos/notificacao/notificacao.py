@@ -54,9 +54,9 @@ def listarNotificacoes():
     Retorna a lista de notificações armazenadas.
     """
     if _notificacoes:
-        return {"Success": 200, "Content": _notificacoes}
+        return {"Status": 200, "Content": _notificacoes}
     else:
-        return {"Error": 404, "Content": "Usuário não encontrado"}
+        return {"Status": 404, "Content": "Usuário não encontrado"}
 
 
 # Função de acesso: Salvar uma nova notificação local
@@ -65,7 +65,7 @@ def salvarNotificacao(conteudo):
     Salva uma notificação localmente com data e hora atual.
     """
     if not conteudo or not isinstance(conteudo, str) or conteudo.strip() == "":
-        return {"Error": 404, "Content": "Usuário não encontrado"}
+        return {"Status": 404, "Content": "Usuário não encontrado"}
 
     nova = {
         "data": datetime.now().isoformat(timespec='seconds'),
@@ -73,7 +73,7 @@ def salvarNotificacao(conteudo):
     }
     _notificacoes.append(nova)
     _salvar_notificacoes()
-    return {"Success": 200, "Content": _notificacoes}
+    return {"Status": 200, "Content": _notificacoes}
 
 
 # Função de acesso: Enviar notificação (simula envio para Telegram)
@@ -83,10 +83,10 @@ def enviarNotificacao(chatId, conteudo):
     Além disso, salva a notificação localmente.
     """
     if not isinstance(chatId, int) or chatId <= 0:
-        return {"Error": 404, "Content": "Chat não encontrado"}
+        return {"Status": 404, "Content": "Chat não encontrado"}
 
     if not conteudo or not isinstance(conteudo, str) or conteudo.strip() == "":
-        return {"Error": 404, "Content": "Chat não encontrado"}
+        return {"Status": 404, "Content": "Chat não encontrado"}
 
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
     payload = {
@@ -100,12 +100,12 @@ def enviarNotificacao(chatId, conteudo):
 
         salvarNotificacao(conteudo)  # Sempre salva localmente também
 
-        return {"Success": 200, "Content": "Mensagem enviada com sucesso"}
+        return {"Status": 200, "Content": "Mensagem enviada com sucesso"}
     
     except requests.exceptions.HTTPError as e:
-        return {"Error": 404, "Content": "Chat não encontrado"}
+        return {"Status": 404, "Content": "Chat não encontrado"}
     except Exception as e:
-        return {"Error": 500, "Content": f"Erro ao enviar mensagem: {str(e)}"}
+        return {"Status": 500, "Content": f"Erro ao enviar mensagem: {str(e)}"}
 
 
 # Garanta que as notificações sejam salvas ao finalizar a execução
