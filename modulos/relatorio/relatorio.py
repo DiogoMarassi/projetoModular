@@ -187,7 +187,7 @@ def gerar_relatorio_financeiro(periodo, PDF=False):
     }
 
     if PDF:
-        converter_PDF(resumo, "./tests/data/relatorios_pdf/relatorio.pdf")
+        converter_PDF(resumo, "./tests/pdf_files/relatorio.pdf")
     
 
     return {"Status": 200, "Content": relatorio}
@@ -416,7 +416,7 @@ def gerar_comparativo(ano1, ano2):
     else:
         resumo += "Nenhuma categoria teve redução de despesas.\n"
 
-    converter_PDF(resumo, "./tests/data/relatorios_pdf/comparativos.pdf")
+    converter_PDF(resumo, "./tests/pdf_files/comparativos.pdf")
 
 
     comparativo = {
