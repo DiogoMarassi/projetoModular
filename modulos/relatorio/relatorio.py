@@ -335,38 +335,42 @@ def gerar_comparativo(ano1, ano2):
     gastos_por_categoria, [cat_mais_gasto, cat_mais_ganho] = categoria_maior_dif_despesa(relatorioano1, relatorioano2)
 
     resumo = (
-    f"Em {ano2}, as receitas variaram em R$ {diferenca_receitas:.2f}, "
-    f"as despesas em R$ {diferenca_despesas:.2f}, e o saldo final mudou em R$ {diferenca_saldoFinal:.2f}.\n"
-)
+    f"Entre os anos de {ano1} e {ano2}, as receitas totais variaram em R$ {diferenca_receitas:.2f}, "
+    f"e as despesas em R$ {diferenca_despesas:.2f}.\n"
+    f"No fim de {ano1}, o saldo final era de R$ {relatorioano1['saldoFinal']}, "
+    f"e passou a R$ {relatorioano2['saldoFinal']} no fim de {ano2}.\n"
+    )
 
-    if (cat_mais_gasto["categoria"] == None):
-        resumo += "Nenhuma variacao de gasto foi detectado\n"
-    if (cat_mais_ganho["categoria"] == None):
-        resumo += "Nenhuma variacao de beneficio foi detectado\n"
+    if cat_mais_gasto["categoria"] is None:
+        resumo += "Nenhuma variação significativa de gasto foi detectada.\n"
+    if cat_mais_ganho["categoria"] is None:
+        resumo += "Nenhuma variação significativa de ganho foi detectada.\n"
     else:
-        resumo += f"Cuidado com os gastos em '{cat_mais_gasto['categoria']}': "
+        resumo += f"\n⚠️ Atenção aos gastos na categoria '{cat_mais_gasto['categoria']}':\n"
         if cat_mais_gasto["mesmo_tipo"] == 0:
-            resumo += f"O positivo do primeiro nessa categoria ano virou muito negativo no segundo ano.\n"
-            
+            resumo += "O que era positivo no primeiro ano virou altamente negativo no segundo ano.\n"
         else:
-            resumo += f"O negativo do primeiro nessa categoria ano ficou negativo no segundo ano.\n"
+            resumo += "O que já era negativo no primeiro ano continuou negativo no segundo.\n"
+
         resumo += (
-            f"R$ {cat_mais_gasto['valorAno1']:.2f} em {ano1} contra"
+            f"Totalizando gastos e beneficios em {ano1}: R$ {cat_mais_gasto['valorAno1']:.2f} na conta, contra "
             f"R$ {cat_mais_gasto['valorAno2']:.2f} em {ano2} "
             f"({cat_mais_gasto['variacao']:.2f} de variação).\n"
         )
-        resumo += f"Porém teve uma melhoria em '{cat_mais_gasto['categoria']}': "
+
+        resumo += f"\n✅ Entretanto houve uma melhoria na categoria '{cat_mais_ganho['categoria']}':\n"
         if cat_mais_ganho["mesmo_tipo"] == 0:
-            resumo += f"O negativo do primeiro nessa categoria ano virou muito positivo no segundo ano!\n"
+            resumo += "O que era negativo no primeiro ano virou muito positivo no segundo!\n"
         else:
-            resumo += f"O positivo do primeiro nessa categoria ano ficou positivo no segundo ano!\n"
+            resumo += "O que já era positivo no primeiro ano se manteve positivo no segundo.\n"
+
         resumo += (
-            f"R$ {cat_mais_ganho['valorAno1']:.2f} em {ano1} contra"
+            f"Totalizando gastos e beneficios em {ano1}: R$ {cat_mais_ganho['valorAno1']:.2f} na conta, contra "
             f"R$ {cat_mais_ganho['valorAno2']:.2f} em {ano2} "
             f"({cat_mais_ganho['variacao']:.2f} de variação).\n"
         )
 
-    resumo += "\nAumento das despesas:\n"
+    resumo += "\n📈 Aumentos nas despesas:\n"
     aumentos = [item for item in gastos_por_categoria if item['variacao'] > 0]
     if aumentos:
         for item in aumentos:
@@ -374,14 +378,13 @@ def gerar_comparativo(ano1, ano2):
     else:
         resumo += "Nenhuma categoria teve aumento de despesas.\n"
 
-    resumo += "\nRedução das despesas:\n"
+    resumo += "\n📉 Reduções nas despesas:\n"
     reducoes = [item for item in gastos_por_categoria if item['variacao'] < 0]
     if reducoes:
         for item in reducoes:
             resumo += f" - {item['categoria']}: R$ {item['variacao']:.2f}\n"
     else:
         resumo += "Nenhuma categoria teve redução de despesas.\n"
-
 
 
     comparativo = {
