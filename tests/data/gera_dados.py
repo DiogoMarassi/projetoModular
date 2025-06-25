@@ -11,7 +11,7 @@ tipos = ['receita', 'despesa']
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ARQUIVO_TESTE = os.path.join(BASE_DIR, "lancamentos_testes.json")
 
-def gerar_lancamentos(quantidade=30, anos=(2020, 2024)):
+def gerar_lancamentos(quantidade=50, anos=(2020, 2024)):
     lancamentos = []
 
     for i in range(quantidade):

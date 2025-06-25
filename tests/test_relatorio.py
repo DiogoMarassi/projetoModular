@@ -37,7 +37,7 @@ def test_gerar_comparativo_sucesso():
     response = gerar_comparativo(2020, 2023)
     assert response["Status"] == 200
     assert "diferencas" in response["Content"]
-    assert "categoriaComMaiorDiferenca" in response["Content"]
+    assert "categorias_variacoes_extremas" in response["Content"]
 
 
 def test_gerar_comparativo_ano_invalido():
