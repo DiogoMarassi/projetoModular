@@ -58,7 +58,7 @@ def agrupar_por_categoria(lancamentos_periodo, tipo):
 
 
 def gerar_grafico_pizza_despesas(relatorio):
-    despesas = relatorio["despesas"]
+    despesas = relatorio["Content"]["despesas"]
     categorias = [k for k in despesas if k != "total"]
     valores = [despesas[k] for k in categorias]
 
