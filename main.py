@@ -97,13 +97,11 @@ def menu_relatorio():
 
             periodo = {"data_inicio": data_inicio, "data_final": data_fim}
 
-            response = gerar_relatorio_financeiro(periodo)
+            response = gerar_relatorio_financeiro(periodo, True)
             if (response["Status"] == 200):
-                print("\n📋 Relatório criado com sucesso:\n")
+                print("\n📋 Relatório criado com sucesso!\n")
                 pprint(response, sort_dicts=False)
                 gerar_grafico_pizza_despesas(response)
-                for n in response["Content"]:
-                    print(f"- {n['data']} : {n['conteudo']}")
             else:
                 print("\nOcorreu um erro na elaboração do relatório.")
 

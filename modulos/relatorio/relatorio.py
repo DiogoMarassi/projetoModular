@@ -1,13 +1,11 @@
 from datetime import datetime
-
 import matplotlib.pyplot as plt #Para a geracao de diagrama circular
-
 from tests.data.gera_dados import tipos, categorias
-
 
 import json
 from datetime import datetime
 import os
+from fpdf import FPDF
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 _ARQUIVO = os.path.join(BASE_DIR, "tests", "data", "lancamentos_testes.json")
@@ -52,8 +50,8 @@ def agrupar_por_categoria(lancamentos_periodo, tipo):
     for l in lancamentos_periodo:
         if l["tipo"] == tipo:
             cat = l["categoria"]
-            categorias[cat] = categorias.get(cat, 0.0) + l["valor"]
-            total += l["valor"]
+            categorias[cat] = categorias.get(cat, 0.0) + round(l["valor"], 2)
+            total += round(l["valor"], 2)
     return categorias, total
 
 
@@ -74,7 +72,24 @@ def gerar_grafico_pizza_despesas(relatorio):
     plt.show()
 
 
-def gerar_relatorio_financeiro(periodo):
+def converter_PDF(resumo, nome_arquivo):
+    pdf = FPDF()
+    pdf.add_page()
+
+    # Fonte padrão: Arial, tamanho 12
+    pdf.set_font("Arial", size=12)
+
+    # Divide o texto em linhas e escreve uma por uma
+    for linha in resumo.strip().split('\n'):
+        pdf.multi_cell(0, 10, linha)
+
+    # Salva o PDF
+    pdf.output(nome_arquivo)
+    print(f"PDF salvo como '{nome_arquivo}'")
+
+
+
+def gerar_relatorio_financeiro(periodo, PDF=False):
         
     """
     Generates a financial report summarizing income and expenses over a specified time period.
@@ -109,6 +124,7 @@ def gerar_relatorio_financeiro(periodo):
                 },
                 "saldoFinal": float,
                 "variacao": float
+                "resumo": str
             }
 
         On error (HTTP 400):
@@ -149,6 +165,15 @@ def gerar_relatorio_financeiro(periodo):
     saldo_final = saldo_inicial + soma_receitas_periodo - soma_despesas_periodo
     variacao = saldo_final - saldo_inicial
 
+    resumo = (
+        f"Saldo inicial no dia {data_inicio.strftime('%Y-%m-%d')}: R$ {round(saldo_inicial,2)}\n"
+        f"Saldo final no dia {data_fim.strftime('%Y-%m-%d')}: R$ {round(saldo_final,2)}\n"
+        f"Total de receitas nesse período: R$ {round(soma_receitas_periodo, 2)}\n"
+        f"Total de despesas nesse período: R$ {round(soma_despesas_periodo, 2)}\n"
+        f"Variação do saldo: R$ {round(variacao, 2)}\n"
+        )
+
+
     relatorio = {
         "periodo": {
             "inicio": data_inicio.strftime("%Y-%m-%d"),
@@ -157,8 +182,13 @@ def gerar_relatorio_financeiro(periodo):
         "receitas": {"total": round(soma_receitas_periodo, 2), **receitas_por_cat},
         "despesas": {"total": round(soma_despesas_periodo, 2), **despesas_por_cat},
         "saldoFinal": round(saldo_final, 2),
-        "variacao": round(variacao, 2)
+        "variacao": round(variacao, 2),
+        "resumo": resumo
     }
+
+    if PDF:
+        converter_PDF(resumo, "./tests/data/relatorios_pdf/relatorio.pdf")
+    
 
     return {"Status": 200, "Content": relatorio}
 
@@ -275,7 +305,7 @@ def gerar_comparativo(ano1, ano2):
                     "despesas": float,
                     "saldoFinal": float
                 },
-                "diferencas": {
+                "variacao": {
                     "receitas": float,
                     "despesas": float,
                     "saldoFinal": float
@@ -346,7 +376,7 @@ def gerar_comparativo(ano1, ano2):
     if cat_mais_ganho["categoria"] is None:
         resumo += "Nenhuma variação significativa de ganho foi detectada.\n"
     else:
-        resumo += f"\n⚠️ Atenção aos gastos na categoria '{cat_mais_gasto['categoria']}':\n"
+        resumo += f"\nAtenção aos gastos na categoria '{cat_mais_gasto['categoria']}':\n"
         if cat_mais_gasto["mesmo_tipo"] == 0:
             resumo += "O que era positivo no primeiro ano virou altamente negativo no segundo ano.\n"
         else:
@@ -358,7 +388,7 @@ def gerar_comparativo(ano1, ano2):
             f"({cat_mais_gasto['variacao']:.2f} de variação).\n"
         )
 
-        resumo += f"\n✅ Entretanto houve uma melhoria na categoria '{cat_mais_ganho['categoria']}':\n"
+        resumo += f"\nEntretanto houve uma melhoria na categoria '{cat_mais_ganho['categoria']}':\n"
         if cat_mais_ganho["mesmo_tipo"] == 0:
             resumo += "O que era negativo no primeiro ano virou muito positivo no segundo!\n"
         else:
@@ -370,7 +400,7 @@ def gerar_comparativo(ano1, ano2):
             f"({cat_mais_ganho['variacao']:.2f} de variação).\n"
         )
 
-    resumo += "\n📈 Aumentos nas despesas:\n"
+    resumo += "\nAumentos nas despesas:\n"
     aumentos = [item for item in gastos_por_categoria if item['variacao'] > 0]
     if aumentos:
         for item in aumentos:
@@ -378,13 +408,15 @@ def gerar_comparativo(ano1, ano2):
     else:
         resumo += "Nenhuma categoria teve aumento de despesas.\n"
 
-    resumo += "\n📉 Reduções nas despesas:\n"
+    resumo += "\nReduções nas despesas:\n"
     reducoes = [item for item in gastos_por_categoria if item['variacao'] < 0]
     if reducoes:
         for item in reducoes:
             resumo += f" - {item['categoria']}: R$ {item['variacao']:.2f}\n"
     else:
         resumo += "Nenhuma categoria teve redução de despesas.\n"
+
+    converter_PDF(resumo, "./tests/data/relatorios_pdf/comparativos.pdf")
 
 
     comparativo = {
