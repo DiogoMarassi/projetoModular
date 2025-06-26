@@ -1,0 +1,85 @@
+{
+  "lancamentos": [
+    {
+      "id": 1,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 2,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 4,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 5,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 6,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 7,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 8,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 10,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 11,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 12,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    }
+  ],
+  "proximo_id": 13
+}
