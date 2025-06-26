@@ -1,68 +1,102 @@
+"""
+Módulo de Notificações
+
+Responsável por:
+- Gerenciar e armazenar notificações locais
+- Enviar mensagens via Telegram usando chatId
+- Persistir notificações em arquivo JSON (apenas no encerramento da aplicação)
+"""
+
 import json
-from datetime import datetime
 import os
 import requests
+from datetime import datetime
+from typing import List, Dict, Union
 from dotenv import load_dotenv
 
+# ---------------------
+# Carrega token do .env
+# ---------------------
 load_dotenv()
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+_TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 
-# Dados encapsulados (não são exportados diretamente)
-_notificacoes = []
+# ----------------------
+# Variáveis privadas
+# ----------------------
+_notificacoes: List[Dict[str, str]] = []
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_ARQUIVO = os.path.join(BASE_DIR, "data", "notificacoes.json")
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_ARQUIVO_NOTIFICACOES = os.path.join(_BASE_DIR, "data", "notificacoes.json")
 
-def setArquivoPersistencia(caminho):
+# ----------------------
+# Funções internas
+# ----------------------
+
+def _carregar_notificacoes() -> None:
     """
-    Permite alterar o caminho do arquivo de persistência (útil para testes).
-    """
-    global _ARQUIVO
-    _ARQUIVO = caminho
-    _carregar_notificacoes()
-
-def resetarNotificacoes():
-    """
-    Função de uso interno ou para testes.
-    Remove todas as notificações da memória e do arquivo persistente.
+    Carrega notificações do JSON para a memória (executado na importação).
     """
     global _notificacoes
-    _notificacoes = []
-    _salvar_notificacoes()
-
-# Função interna para carregar dados do arquivo
-def _carregar_notificacoes():
-    global _notificacoes
-    if os.path.exists(_ARQUIVO):
-        with open(_ARQUIVO, 'r', encoding='utf-8') as f:
+    if os.path.exists(_ARQUIVO_NOTIFICACOES):
+        with open(_ARQUIVO_NOTIFICACOES, 'r', encoding='utf-8') as f:
             _notificacoes = json.load(f)
     else:
         _notificacoes = []
 
-# Função interna para salvar dados no arquivo
-def _salvar_notificacoes():
-    with open(_ARQUIVO, 'w', encoding='utf-8') as f:
+def _salvar_notificacoes() -> None:
+    """
+    Salva notificações da memória no arquivo JSON (executado ao encerrar).
+    """
+    with open(_ARQUIVO_NOTIFICACOES, 'w', encoding='utf-8') as f:
         json.dump(_notificacoes, f, ensure_ascii=False, indent=4, default=str)
 
-# Inicializa carregando as notificações na abertura do módulo
+# Carrega ao importar
 _carregar_notificacoes()
 
+# ----------------------
+# Funções auxiliares (testes)
+# ----------------------
 
-# Função de acesso: Listar notificações
-def listarNotificacoes():
+def setArquivoPersistencia(caminho: str) -> None:
     """
-    Retorna a lista de notificações armazenadas.
+    Altera o caminho do arquivo de persistência (para testes).
+    """
+    global _ARQUIVO_NOTIFICACOES
+    _ARQUIVO_NOTIFICACOES = caminho
+    _carregar_notificacoes()
+
+def resetarNotificacoes() -> None:
+    """
+    Limpa todas as notificações em memória (para testes).
+    """
+    global _notificacoes
+    _notificacoes = []
+
+# ----------------------
+# Funções de acesso (públicas)
+# ----------------------
+
+def listarNotificacoes() -> Dict[str, Union[int, str, List[Dict[str, str]]]]:
+    """
+    Retorna todas as notificações armazenadas.
+
+    Returns:
+        dict: {"Status": 200, "Content": lista} ou {"Status": 404, "Content": "Usuário não encontrado"}
     """
     if _notificacoes:
         return {"Status": 200, "Content": _notificacoes}
     else:
         return {"Status": 404, "Content": "Usuário não encontrado"}
 
-
-# Função de acesso: Salvar uma nova notificação local
-def salvarNotificacao(conteudo):
+def salvarNotificacao(conteudo: str) -> Dict[str, Union[int, str, List[Dict[str, str]]]]:
     """
-    Salva uma notificação localmente com data e hora atual.
+    Adiciona uma notificação com data/hora atual à memória.
+
+    Args:
+        conteudo (str): Texto da notificação
+
+    Returns:
+        dict: {"Status": 200, "Content": lista atualizada} ou {"Status": 404, ...}
     """
     if not conteudo or not isinstance(conteudo, str) or conteudo.strip() == "":
         return {"Status": 404, "Content": "Usuário não encontrado"}
@@ -72,15 +106,18 @@ def salvarNotificacao(conteudo):
         "conteudo": conteudo.strip()
     }
     _notificacoes.append(nova)
-    _salvar_notificacoes()
     return {"Status": 200, "Content": _notificacoes}
 
-
-# Função de acesso: Enviar notificação (simula envio para Telegram)
-def enviarNotificacao(chatId, conteudo):
+def enviarNotificacao(chatId: int, conteudo: str) -> Dict[str, Union[int, str]]:
     """
-    Envia uma notificação real para o Telegram usando a Telegram Bot API.
-    Além disso, salva a notificação localmente.
+    Envia uma notificação para o Telegram via API e armazena localmente.
+
+    Args:
+        chatId (int): ID do usuário no Telegram
+        conteudo (str): Texto da mensagem
+
+    Returns:
+        dict: {"Status": 200, "Content": "Mensagem enviada com sucesso"} ou erro
     """
     if not isinstance(chatId, int) or chatId <= 0:
         return {"Status": 404, "Content": "Chat não encontrado"}
@@ -88,26 +125,34 @@ def enviarNotificacao(chatId, conteudo):
     if not conteudo or not isinstance(conteudo, str) or conteudo.strip() == "":
         return {"Status": 404, "Content": "Chat não encontrado"}
 
-    url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-    payload = {
-        "chat_id": chatId,
-        "text": conteudo
-    }
+    url = f"https://api.telegram.org/bot{_TELEGRAM_TOKEN}/sendMessage"
+    payload = {"chat_id": chatId, "text": conteudo}
 
     try:
         response = requests.post(url, json=payload)
-        response.raise_for_status()  # Levanta erro para respostas como 400, 404, etc.
-
-        salvarNotificacao(conteudo)  # Sempre salva localmente também
-
+        response.raise_for_status()
+        salvarNotificacao(conteudo)  # apenas em memória
         return {"Status": 200, "Content": "Mensagem enviada com sucesso"}
-    
-    except requests.exceptions.HTTPError as e:
+    except requests.exceptions.HTTPError:
         return {"Status": 404, "Content": "Chat não encontrado"}
     except Exception as e:
         return {"Status": 500, "Content": f"Erro ao enviar mensagem: {str(e)}"}
 
+# ----------------------
+# Persistência no encerramento
+# ----------------------
 
-# Garanta que as notificações sejam salvas ao finalizar a execução
 import atexit
 atexit.register(_salvar_notificacoes)
+
+# ----------------------
+# Exportações explícitas
+# ----------------------
+
+__all__ = [
+    "listarNotificacoes",
+    "salvarNotificacao",
+    "enviarNotificacao",
+    "setArquivoPersistencia",
+    "resetarNotificacoes",
+]
