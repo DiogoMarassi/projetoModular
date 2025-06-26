@@ -2,9 +2,29 @@
 Arquivo de teste para demonstrar o uso do módulo Lançamentos Financeiros
 """
 
-import pytest
+import os
 from datetime import datetime
+import shutil
+import pytest
 from modulos.lancamento import *
+
+# Caminho do arquivo de dados usado pelo módulo
+ARQUIVO_DADOS = os.path.abspath(os.path.join(os.path.dirname(__file__), "../data/lancamentos.json"))
+ARQUIVO_BACKUP = ARQUIVO_DADOS + ".bak"
+
+@pytest.fixture(autouse=True, scope="module")
+def backup_e_limpeza_arquivo():
+    arquivo_existia_antes = os.path.exists(ARQUIVO_DADOS)
+    if arquivo_existia_antes:
+        shutil.copy2(ARQUIVO_DADOS, ARQUIVO_BACKUP)
+
+    yield  # Aqui rodam os testes
+
+    # Depois dos testes: restaura o backup ou remove o arquivo criado
+    if arquivo_existia_antes and os.path.exists(ARQUIVO_BACKUP):
+        shutil.move(ARQUIVO_BACKUP, ARQUIVO_DADOS)
+    elif not arquivo_existia_antes and os.path.exists(ARQUIVO_DADOS):
+        os.remove(ARQUIVO_DADOS)
 
 def test_criar_lancamento_sucesso():
     """Testa criação de lançamento com dados válidos (espera 201)"""
