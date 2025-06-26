@@ -1,4 +1,4 @@
-from modulos.notificacao import (
+from modulos.notificacao.notificacao import (
     listarNotificacoes,
     salvarNotificacao,
     enviarNotificacao,
