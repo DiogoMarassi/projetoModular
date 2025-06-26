@@ -1,0 +1,21 @@
+{
+  "lancamentos": [
+    {
+      "id": 1,
+      "descricao": "Salário",
+      "valor": 3500.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 2,
+      "descricao": "Supermercado",
+      "valor": 200.0,
+      "data": "2025-07-05T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    }
+  ],
+  "proximo_id": 3
+}
