@@ -14,19 +14,16 @@ from datetime import datetime
 from typing import List, Dict, Union
 from dotenv import load_dotenv
 
-# ---------------------
-# Carrega token do .env
-# ---------------------
-load_dotenv()
-_TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_ARQUIVO_NOTIFICACOES = os.path.join(_BASE_DIR, "data", "notificacoes.json")
 
 # ----------------------
 # Variáveis privadas
 # ----------------------
-_notificacoes: List[Dict[str, str]] = []
+load_dotenv()
+_TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 
-_BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_ARQUIVO_NOTIFICACOES = os.path.join(_BASE_DIR, "data", "notificacoes.json")
+_notificacoes: List[Dict[str, str]] = []
 
 # ----------------------
 # Funções internas

@@ -1,73 +1,83 @@
 import pytest
 import os
-from modulos.notificacao.notificacao import listarNotificacoes, salvarNotificacao, enviarNotificacao, setArquivoPersistencia, resetarNotificacoes
+from modulos.notificacao.notificacao import (
+    listarNotificacoes,
+    salvarNotificacao,
+    enviarNotificacao,
+    setArquivoPersistencia,
+    resetarNotificacoes
+)
 from dotenv import load_dotenv
 
+# ---------------------
+# Setup de ambiente
+# ---------------------
 load_dotenv()
-CHAT_ID = int(os.getenv("TELEGRAM_CHAT_ID"))
-
+CHAT_ID_VALIDO = int(os.getenv("TELEGRAM_CHAT_ID", "0"))  # Pode ser mockado
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARQUIVO_TESTE = os.path.join(BASE_DIR, "tests", "data", "notificacoes.json")
 
-setArquivoPersistencia(ARQUIVO_TESTE)
-resetarNotificacoes()
-
+# ---------------------
+# Fixture para preparar ambiente limpo
+# ---------------------
 @pytest.fixture(autouse=True)
-def limpar_arquivo():
+def ambiente_limpo():
+    setArquivoPersistencia(ARQUIVO_TESTE)
+    resetarNotificacoes()
     if os.path.exists(ARQUIVO_TESTE):
-        print(f"Removendo arquivo de teste: {ARQUIVO_TESTE}")
         os.remove(ARQUIVO_TESTE)
     yield
     if os.path.exists(ARQUIVO_TESTE):
-        print(f"Removendo arquivo de teste após os testes: {ARQUIVO_TESTE}")
         os.remove(ARQUIVO_TESTE)
 
-# Teste listar notificações sem dados (espera erro 404)
-def test_listar_notificacoes_sem_dados():
+# ---------------------
+# Casos de teste
+# ---------------------
+
+def test_listar_notificacoes_vazio():
     response = listarNotificacoes()
     assert response["Status"] == 404
     assert response["Content"] == "Usuário não encontrado"
 
-# Teste salvar notificação com sucesso
-def test_salvar_notificacao_sucesso():
-    response = salvarNotificacao("Despesa ultrapassou limite")
+def test_salvar_notificacao_valida():
+    response = salvarNotificacao("Gasto ultrapassou limite!")
     assert response["Status"] == 200
     assert isinstance(response["Content"], list)
-    assert any("Despesa ultrapassou limite" in n["conteudo"] for n in response["Content"])
+    assert len(response["Content"]) == 1
+    assert "Gasto ultrapassou limite!" in response["Content"][0]["conteudo"]
 
-# Teste salvar notificação com conteúdo inválido (espera erro 404)
-@pytest.mark.parametrize("conteudo", ["", None, "   "])
-def test_salvar_notificacao_conteudo_invalido(conteudo):
-    response = salvarNotificacao(conteudo)
+@pytest.mark.parametrize("conteudo_invalido", ["", None, "   "])
+def test_salvar_notificacao_invalida(conteudo_invalido):
+    response = salvarNotificacao(conteudo_invalido)
     assert response["Status"] == 404
     assert response["Content"] == "Usuário não encontrado"
 
-# Teste listar notificações após salvar
 def test_listar_notificacoes_apos_salvar():
-    salvarNotificacao("Nova notificação")
+    salvarNotificacao("Notificação 1")
+    salvarNotificacao("Notificação 2")
     response = listarNotificacoes()
     assert response["Status"] == 200
     assert isinstance(response["Content"], list)
-    assert any("Nova notificação" in n["conteudo"] for n in response["Content"])
+    assert len(response["Content"]) == 2
 
-# Teste enviar notificação com sucesso (mock do Telegram)
-def test_enviar_notificacao_sucesso():
-    response = enviarNotificacao(CHAT_ID, "Seu saldo está baixo")
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    print(response)
+def test_enviar_notificacao_valida(monkeypatch):
+    def mock_post(*args, **kwargs):
+        class MockResponse:
+            def raise_for_status(self): pass
+        return MockResponse()
+    monkeypatch.setattr("requests.post", mock_post)
+    response = enviarNotificacao(CHAT_ID_VALIDO, "Saldo abaixo do esperado.")
     assert response["Status"] == 200
     assert response["Content"] == "Mensagem enviada com sucesso"
 
-# Teste enviar notificação com chatId inválido (espera erro 404)
-@pytest.mark.parametrize("chatId", [None, -1, 0, "abc"])
-def test_enviar_notificacao_chat_invalido(chatId):
-    response = enviarNotificacao(chatId, "Teste")
+@pytest.mark.parametrize("chat_invalido", [None, -5, 0, "abc"])
+def test_enviar_notificacao_chat_invalido(chat_invalido):
+    response = enviarNotificacao(chat_invalido, "Mensagem")
     assert response["Status"] == 404
     assert response["Content"] == "Chat não encontrado"
 
-# Teste enviar notificação com mensagem inválida (espera erro 404)
-@pytest.mark.parametrize("conteudo", ["", None, "   "])
-def test_enviar_notificacao_conteudo_invalido(conteudo):
-    response = enviarNotificacao(123, conteudo)
+@pytest.mark.parametrize("mensagem_invalida", ["", None, "   "])
+def test_enviar_notificacao_conteudo_invalido(mensagem_invalida):
+    response = enviarNotificacao(123456, mensagem_invalida)
     assert response["Status"] == 404
     assert response["Content"] == "Chat não encontrado"
