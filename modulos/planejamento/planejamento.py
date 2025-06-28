@@ -2,14 +2,14 @@
 Módulo de Planejamento
 Responsável pelo módulo: Pedro Basto
 Módulo responsavel por:
-- Calcular um planejamento automático com base no salário do usuário
+- Calcular um planejamento automático com base no salário do usuário que pode vir de um input ou do lançamento mais recente
 - Permitir edição manual do usuário para alterar os valores padrão
-- Persistir o planejamento para um arquivo .json
+- Persistir o planejamento para um arquivo JSON
 """
 
 import os
 import json
-from modulos.lancamentos import listarLancamentos
+from modulos.lancamento import listarLancamentos
 
 # Encapsulamento - Lista das funções disponibilizadas pelo módulo
 __all__ = [
@@ -72,6 +72,9 @@ def editarDivisaoGastos(novaDivisaoGastos):
 
     salario = novaDivisaoGastos.get("salario")
     divisao = novaDivisaoGastos.get("divisao")
+
+    if salario <= 1630:
+        return {"Error": 400, "Content": "Salário inválido"}
 
     if not salario or not divisao or not isinstance(divisao, dict):
         return {"Error": 400, "Content": "Nova divisão de gastos inválida"}
