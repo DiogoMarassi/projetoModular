@@ -1,0 +1,352 @@
+[
+    {
+        "descricao": "Lançamento 0",
+        "valor": 2187.28,
+        "data": "2023-03-16T00:00:00",
+        "tipo": "receita",
+        "categoria": "Alimentação"
+    },
+    {
+        "descricao": "Lançamento 1",
+        "valor": 1436.14,
+        "data": "2021-05-22T00:00:00",
+        "tipo": "receita",
+        "categoria": "Outros"
+    },
+    {
+        "descricao": "Lançamento 2",
+        "valor": 1188.21,
+        "data": "2022-01-13T00:00:00",
+        "tipo": "receita",
+        "categoria": "Educação"
+    },
+    {
+        "descricao": "Lançamento 3",
+        "valor": 66.65,
+        "data": "2022-07-02T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Lazer"
+    },
+    {
+        "descricao": "Lançamento 4",
+        "valor": 2080.39,
+        "data": "2020-08-17T00:00:00",
+        "tipo": "receita",
+        "categoria": "Lazer"
+    },
+    {
+        "descricao": "Lançamento 5",
+        "valor": 364.12,
+        "data": "2022-06-07T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Guardar"
+    },
+    {
+        "descricao": "Lançamento 6",
+        "valor": 179.0,
+        "data": "2021-11-08T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Salario"
+    },
+    {
+        "descricao": "Lançamento 7",
+        "valor": 3320.46,
+        "data": "2020-06-25T00:00:00",
+        "tipo": "receita",
+        "categoria": "Outros"
+    },
+    {
+        "descricao": "Lançamento 8",
+        "valor": 113.31,
+        "data": "2021-09-22T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Guardar"
+    },
+    {
+        "descricao": "Lançamento 9",
+        "valor": 3203.39,
+        "data": "2023-07-17T00:00:00",
+        "tipo": "receita",
+        "categoria": "Educação"
+    },
+    {
+        "descricao": "Lançamento 10",
+        "valor": 271.1,
+        "data": "2020-06-27T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Salario"
+    },
+    {
+        "descricao": "Lançamento 11",
+        "valor": 1295.05,
+        "data": "2021-08-16T00:00:00",
+        "tipo": "receita",
+        "categoria": "Transporte"
+    },
+    {
+        "descricao": "Lançamento 12",
+        "valor": 295.23,
+        "data": "2022-04-06T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Moradia"
+    },
+    {
+        "descricao": "Lançamento 13",
+        "valor": 2290.26,
+        "data": "2023-11-04T00:00:00",
+        "tipo": "receita",
+        "categoria": "Salario"
+    },
+    {
+        "descricao": "Lançamento 14",
+        "valor": 3414.66,
+        "data": "2020-02-10T00:00:00",
+        "tipo": "receita",
+        "categoria": "Alimentação"
+    },
+    {
+        "descricao": "Lançamento 15",
+        "valor": 1855.59,
+        "data": "2020-05-07T00:00:00",
+        "tipo": "receita",
+        "categoria": "Lazer"
+    },
+    {
+        "descricao": "Lançamento 16",
+        "valor": 326.61,
+        "data": "2020-09-24T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Alimentação"
+    },
+    {
+        "descricao": "Lançamento 17",
+        "valor": 1574.89,
+        "data": "2022-09-27T00:00:00",
+        "tipo": "receita",
+        "categoria": "Saúde"
+    },
+    {
+        "descricao": "Lançamento 18",
+        "valor": 3817.77,
+        "data": "2020-04-01T00:00:00",
+        "tipo": "receita",
+        "categoria": "Educação"
+    },
+    {
+        "descricao": "Lançamento 19",
+        "valor": 1439.44,
+        "data": "2022-10-07T00:00:00",
+        "tipo": "receita",
+        "categoria": "Outros"
+    },
+    {
+        "descricao": "Lançamento 20",
+        "valor": 3678.53,
+        "data": "2022-01-05T00:00:00",
+        "tipo": "receita",
+        "categoria": "Outros"
+    },
+    {
+        "descricao": "Lançamento 21",
+        "valor": 1133.61,
+        "data": "2022-06-21T00:00:00",
+        "tipo": "receita",
+        "categoria": "Salario"
+    },
+    {
+        "descricao": "Lançamento 22",
+        "valor": 2152.15,
+        "data": "2020-04-24T00:00:00",
+        "tipo": "receita",
+        "categoria": "Salario"
+    },
+    {
+        "descricao": "Lançamento 23",
+        "valor": 4575.55,
+        "data": "2022-08-18T00:00:00",
+        "tipo": "receita",
+        "categoria": "Transporte"
+    },
+    {
+        "descricao": "Lançamento 24",
+        "valor": 1398.91,
+        "data": "2021-05-23T00:00:00",
+        "tipo": "receita",
+        "categoria": "Educação"
+    },
+    {
+        "descricao": "Lançamento 25",
+        "valor": 232.54,
+        "data": "2020-06-14T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Moradia"
+    },
+    {
+        "descricao": "Lançamento 26",
+        "valor": 2126.15,
+        "data": "2021-06-13T00:00:00",
+        "tipo": "receita",
+        "categoria": "Salario"
+    },
+    {
+        "descricao": "Lançamento 27",
+        "valor": 390.46,
+        "data": "2020-08-01T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Educação"
+    },
+    {
+        "descricao": "Lançamento 28",
+        "valor": 4709.25,
+        "data": "2022-09-05T00:00:00",
+        "tipo": "receita",
+        "categoria": "Outros"
+    },
+    {
+        "descricao": "Lançamento 29",
+        "valor": 293.47,
+        "data": "2021-08-08T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Moradia"
+    },
+    {
+        "descricao": "Lançamento 30",
+        "valor": 171.28,
+        "data": "2020-01-07T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Saúde"
+    },
+    {
+        "descricao": "Lançamento 31",
+        "valor": 3012.76,
+        "data": "2022-03-11T00:00:00",
+        "tipo": "receita",
+        "categoria": "Salario"
+    },
+    {
+        "descricao": "Lançamento 32",
+        "valor": 465.31,
+        "data": "2022-04-15T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Outros"
+    },
+    {
+        "descricao": "Lançamento 33",
+        "valor": 3223.09,
+        "data": "2023-07-13T00:00:00",
+        "tipo": "receita",
+        "categoria": "Lazer"
+    },
+    {
+        "descricao": "Lançamento 34",
+        "valor": 3422.68,
+        "data": "2021-09-11T00:00:00",
+        "tipo": "receita",
+        "categoria": "Guardar"
+    },
+    {
+        "descricao": "Lançamento 35",
+        "valor": 2003.81,
+        "data": "2022-03-24T00:00:00",
+        "tipo": "receita",
+        "categoria": "Outros"
+    },
+    {
+        "descricao": "Lançamento 36",
+        "valor": 111.03,
+        "data": "2021-04-13T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Transporte"
+    },
+    {
+        "descricao": "Lançamento 37",
+        "valor": 378.0,
+        "data": "2022-04-09T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Alimentação"
+    },
+    {
+        "descricao": "Lançamento 38",
+        "valor": 432.34,
+        "data": "2021-09-12T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Saúde"
+    },
+    {
+        "descricao": "Lançamento 39",
+        "valor": 4492.63,
+        "data": "2022-09-08T00:00:00",
+        "tipo": "receita",
+        "categoria": "Saúde"
+    },
+    {
+        "descricao": "Lançamento 40",
+        "valor": 4277.44,
+        "data": "2022-01-02T00:00:00",
+        "tipo": "receita",
+        "categoria": "Alimentação"
+    },
+    {
+        "descricao": "Lançamento 41",
+        "valor": 2851.45,
+        "data": "2023-11-12T00:00:00",
+        "tipo": "receita",
+        "categoria": "Alimentação"
+    },
+    {
+        "descricao": "Lançamento 42",
+        "valor": 318.16,
+        "data": "2023-03-23T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Salario"
+    },
+    {
+        "descricao": "Lançamento 43",
+        "valor": 3514.75,
+        "data": "2021-10-17T00:00:00",
+        "tipo": "receita",
+        "categoria": "Saúde"
+    },
+    {
+        "descricao": "Lançamento 44",
+        "valor": 461.74,
+        "data": "2023-07-01T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Educação"
+    },
+    {
+        "descricao": "Lançamento 45",
+        "valor": 388.6,
+        "data": "2023-04-10T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Moradia"
+    },
+    {
+        "descricao": "Lançamento 46",
+        "valor": 1226.39,
+        "data": "2022-06-08T00:00:00",
+        "tipo": "receita",
+        "categoria": "Transporte"
+    },
+    {
+        "descricao": "Lançamento 47",
+        "valor": 187.8,
+        "data": "2023-11-13T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Outros"
+    },
+    {
+        "descricao": "Lançamento 48",
+        "valor": 2332.17,
+        "data": "2021-02-09T00:00:00",
+        "tipo": "receita",
+        "categoria": "Saúde"
+    },
+    {
+        "descricao": "Lançamento 49",
+        "valor": 237.35,
+        "data": "2023-02-19T00:00:00",
+        "tipo": "despesa",
+        "categoria": "Moradia"
+    }
+]

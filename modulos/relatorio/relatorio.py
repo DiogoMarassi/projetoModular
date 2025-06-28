@@ -10,8 +10,7 @@ from fpdf import FPDF
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 _ARQUIVO = os.path.join(BASE_DIR, "tests", "data", "lancamentos_testes.json")
 
-
-def carregar_lancamentos():
+def _carregar_lancamentos():
     if os.path.exists(_ARQUIVO):
         with open(_ARQUIVO, 'r', encoding='utf-8') as f:
             lancamentos = json.load(f)
@@ -23,11 +22,11 @@ def carregar_lancamentos():
     return []
 
 
-def calcular_saldo_antes(data_inicio):
+def _calcular_saldo_antes(data_inicio):
     saldo = 0.0
-    lancamentos = carregar_lancamentos()
+    lancamentos = _carregar_lancamentos()
     for l in lancamentos:
-        if validar_lancamento(l) and l["data"] < data_inicio:
+        if _validar_lancamento(l) and l["data"] < data_inicio:
             if l["tipo"] == "receita":
                 saldo += l["valor"]
             elif l["tipo"] == "despesa":
@@ -35,7 +34,7 @@ def calcular_saldo_antes(data_inicio):
     return saldo
 
 
-def validar_lancamento(lancamento):
+def _validar_lancamento(lancamento):
     return (
         lancamento.get("tipo") in tipos and
         lancamento.get("categoria") in categorias and
@@ -44,7 +43,7 @@ def validar_lancamento(lancamento):
     )
 
 
-def agrupar_por_categoria(lancamentos_periodo, tipo):
+def _agrupar_por_categoria(lancamentos_periodo, tipo):
     categorias = {}
     total = 0.0
     for l in lancamentos_periodo:
@@ -72,7 +71,7 @@ def gerar_grafico_pizza_despesas(relatorio):
     plt.show()
 
 
-def converter_PDF(resumo, nome_arquivo):
+def _converter_PDF(resumo, nome_arquivo):
     pdf = FPDF()
     pdf.add_page()
 
@@ -139,7 +138,7 @@ def gerar_relatorio_financeiro(periodo, PDF=False):
     - This function does not perform database insertion; it only reads and summarizes data.
     """
     
-    lancamentos = carregar_lancamentos()
+    lancamentos = _carregar_lancamentos()
     
 
     data_inicio = periodo.get("data_inicio")
@@ -152,16 +151,16 @@ def gerar_relatorio_financeiro(periodo, PDF=False):
 
     lancamentos_periodo = [
         l for l in lancamentos
-        if validar_lancamento(l) and data_inicio <= l["data"] < data_fim
+        if _validar_lancamento(l) and data_inicio <= l["data"] < data_fim
     ]
 
     # Erro 404: se nao tiver lancamento neste periodo
     if not lancamentos_periodo:
         return {"Status": 404, "Content": "Nenhum lançamento encontrado"}
 
-    saldo_inicial = calcular_saldo_antes(data_inicio)
-    receitas_por_cat, soma_receitas_periodo = agrupar_por_categoria(lancamentos_periodo, "receita")
-    despesas_por_cat, soma_despesas_periodo = agrupar_por_categoria(lancamentos_periodo, "despesa")
+    saldo_inicial = _calcular_saldo_antes(data_inicio)
+    receitas_por_cat, soma_receitas_periodo = _agrupar_por_categoria(lancamentos_periodo, "receita")
+    despesas_por_cat, soma_despesas_periodo = _agrupar_por_categoria(lancamentos_periodo, "despesa")
     saldo_final = saldo_inicial + soma_receitas_periodo - soma_despesas_periodo
     variacao = saldo_final - saldo_inicial
 
@@ -188,13 +187,13 @@ def gerar_relatorio_financeiro(periodo, PDF=False):
     }
 
     if PDF:
-        converter_PDF(resumo, "./tests/pdf_files/relatorio.pdf")
+        _converter_PDF(resumo, "./tests/pdf_files/relatorio.pdf")
     
 
     return {"Status": 200, "Content": relatorio}
 
 
-def categoria_maior_dif_despesa(relatorioano1, relatorioano2):
+def _categoria_maior_dif_despesa(relatorioano1, relatorioano2):
     # Unir todas as categorias presentes em receitas e despesas dos dois anos
     categorias = (
         set(relatorioano1.get("despesas", {}).keys()) |
@@ -363,11 +362,12 @@ def gerar_comparativo(ano1, ano2):
     diferenca_despesas = relatorioano2["despesas"]["total"] - relatorioano1["despesas"]["total"]
     diferenca_saldoFinal = relatorioano2["saldoFinal"] - relatorioano1["saldoFinal"]
 
-    gastos_por_categoria, [cat_mais_gasto, cat_mais_ganho] = categoria_maior_dif_despesa(relatorioano1, relatorioano2)
+    gastos_por_categoria, [cat_mais_gasto, cat_mais_ganho] = _categoria_maior_dif_despesa(relatorioano1, relatorioano2)
 
     resumo = (
-    f"Entre os anos respectivos de {ano1} e {ano2}, as receitas totais variaram em R$ {diferenca_receitas:.2f}, "
-    f"e as despesas em R$ {diferenca_despesas:.2f}.\n"
+    f"Entre os anos de {ano1} e {ano2}, o montante de receitas totais {'aumentou' if diferenca_receitas >= 0 else 'diminuiu'} R$ {abs(diferenca_receitas):.2f}, "
+    f"e as despesas {'aumentaram' if diferenca_despesas >= 0 else 'diminuíram'} R$ {abs(diferenca_despesas):.2f}.\n"
+
     f"No fim de {ano1}, o saldo final era de R$ {relatorioano1['saldoFinal']}, "
     f"e passou a R$ {relatorioano2['saldoFinal']} no fim de {ano2}.\n"
     )
@@ -419,7 +419,7 @@ def gerar_comparativo(ano1, ano2):
     else:
         resumo += "-- Nenhuma categoria teve redução de despesas. --\n"
 
-    converter_PDF(resumo, "./tests/pdf_files/comparativos.pdf")
+    _converter_PDF(resumo, "./tests/pdf_files/comparativos.pdf")
 
 
     comparativo = {

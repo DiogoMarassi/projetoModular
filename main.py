@@ -3,10 +3,6 @@ from modulos.notificacao.notificacao import (
     salvarNotificacao,
     enviarNotificacao,
 )
-from modulos.relatorio import (
-    gerar_relatorio_financeiro,
-    gerar_comparativo
-)
 from modulos.lancamento import (
     criarLancamento,
     editarLancamento,
@@ -15,7 +11,7 @@ from modulos.lancamento import (
     calcularSaldoMensal
 )
 
-from modulos.relatorio.relatorio import gerar_grafico_pizza_despesas
+from modulos.relatorio import *
 
 from pprint import pprint #Para um pretty print no console
 from datetime import datetime
