@@ -26,14 +26,8 @@ _lancamentos = []
 _proximo_id = 1
 _arquivo_dados = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../data/lancamentos.json"))
 
-# Categorias válidas conforme especificação
-_CATEGORIAS_VALIDAS = {
-    'Moradia', 'Alimentação', 'Transporte', 'Saúde', 
-    'Educação', 'Lazer', 'Guardar', 'Salario', 'Outros'
-}
+from config import categorias, tipos
 
-# Tipos válidos conforme especificação  
-_TIPOS_VALIDOS = {'receita', 'despesa'}
 
 def _carregar_dados():
     """Carrega os dados do arquivo JSON para a memória"""
@@ -102,11 +96,11 @@ def _validar_dados_lancamento(dados):
         return False
     
     # Valida tipo
-    if dados['tipo'] not in _TIPOS_VALIDOS:
+    if dados['tipo'] not in tipos:
         return False
     
     # Valida categoria
-    if dados['categoria'] not in _CATEGORIAS_VALIDAS:
+    if dados['categoria'] not in categorias:
         return False
     
     return True

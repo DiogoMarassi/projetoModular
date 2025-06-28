@@ -1,29 +1,15 @@
-from modulos.notificacao.notificacao import (
-    listarNotificacoes,
-    salvarNotificacao,
-    enviarNotificacao,
-)
-from modulos.lancamento import (
-    criarLancamento,
-    editarLancamento,
-    removerLancamento,
-    listarLancamentos,
-    calcularSaldoMensal
-)
-
+from modulos.lancamento import *
 from modulos.relatorio import *
+from modulos.notificacao import *
+from modulos.planejamento import *
 
 from pprint import pprint #Para um pretty print no console
 from datetime import datetime
 import os
 from dotenv import load_dotenv
 
-from modulos.planejamento import (
-    calculaDivisaoGastos,
-    editarDivisaoGastos,
-    obterDivisaoSalva,
-    calculaDivisaoDoUltimoSalario
-)
+from config import categorias, tipos
+
 
 load_dotenv()
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
@@ -150,7 +136,13 @@ def menu_lancamentos():
             valor = float(input("Valor: "))
             data_str = input("Data (YYYY-MM-DD): ")
             tipo = input("Tipo (receita/despesa): ")
-            categoria = input("Categoria: ")
+            while True:
+                categoria = input("Categoria: ")
+                if categoria in categorias:
+                    print(f"Categoria '{categoria}' válida.")
+                    break  # sai do loop se categoria é válida
+                else:
+                    print(f"Categoria inválida! Por favor, escolha uma das seguintes: {categorias}")
             try:
                 data = datetime.strptime(data_str, "%Y-%m-%d")
             except ValueError:

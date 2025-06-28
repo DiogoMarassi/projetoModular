@@ -4,8 +4,7 @@ from datetime import datetime
 from numpy import random
 
 # Categorias e tipos possíveis
-categorias = ['Moradia', 'Alimentação', 'Transporte', 'Saúde', 'Educação', 'Lazer', 'Guardar', 'Salario', 'Outros']
-tipos = ['receita', 'despesa']
+from config import categorias, tipos
 
 # Passeio nos arquivos (até encontrar a pasta de testes)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

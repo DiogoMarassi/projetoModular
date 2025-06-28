@@ -15,7 +15,15 @@
       "data": "2025-07-05T00:00:00",
       "tipo": "despesa",
       "categoria": "Alimentação"
+    },
+    {
+      "id": 3,
+      "descricao": "Restaurante",
+      "valor": 333.0,
+      "data": "2025-06-26T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Lazer"
     }
   ],
-  "proximo_id": 3
+  "proximo_id": 4
 }

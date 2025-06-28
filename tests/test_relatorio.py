@@ -1,4 +1,4 @@
-from modulos.relatorio import gerar_relatorio_financeiro, gerar_comparativo
+from modulos.relatorio import *
 from datetime import datetime
 
 # --- Casos de testes automatizados para a geração do relatório ---
