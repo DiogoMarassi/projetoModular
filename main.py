@@ -22,6 +22,13 @@ from datetime import datetime
 import os
 from dotenv import load_dotenv
 
+from modulos.planejamento import (
+    calculaDivisaoGastos,
+    editarDivisaoGastos,
+    obterDivisaoSalva,
+    calculaDivisaoDoUltimoSalario
+)
+
 load_dotenv()
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 chat_id = 1665469613
@@ -84,7 +91,7 @@ def menu_notificacoes():
 ## MENU RELATORIO
 def menu_relatorio():
     while True:
-        print("\n===== Menu Notificações =====")
+        print("\n===== Menu Relatório =====")
         print("1. Gerar um relatório financeiro em um período específico")
         print("2. Gerar um comparativo entre dois anos completos")
         print("3. Sair")
@@ -130,7 +137,7 @@ def menu_relatorio():
         else:
             print("\nOpção inválida. Tente novamente.")
 
-
+# MENU LANÇAMENTOS
 def menu_lancamentos():
     while True:
         print("\n===== Menu Lançamentos Financeiros =====")
@@ -251,6 +258,85 @@ def print_lancamentos(lancamentos):
         print(f"{l['id']:>2} | {data_str} | {l['tipo']:<8} | {l['categoria']:<13} | R$ {l['valor']:>8.2f} | {l['descricao']}")
 
 
+# MENU PLANEJAMENTO
+def menu_planejamento():
+    while True:
+        print("\n===== Menu Planejamento Financeiro =====")
+        print("1. Calcular divisão informando o salário")
+        print("2. Calcular divisão a partir do último salário dos lançamentos")
+        print("3. Visualizar divisão salva")
+        print("4. Editar manualmente divisão de gastos")
+        print("5. Sair")
+
+        opcao = input("Escolha uma opção: ")
+
+        if opcao == "1":
+            salario_str = input("Informe o salário base: ")
+            try:
+                salario = float(salario_str)
+            except ValueError:
+                print("Salário inválido.")
+                continue
+
+            resposta = calculaDivisaoGastos(salario)
+            pprint(resposta)
+
+        elif opcao == "2":
+            resposta = calculaDivisaoDoUltimoSalario()
+            pprint(resposta)
+
+        elif opcao == "3":
+            resposta = obterDivisaoSalva()
+            pprint(resposta)
+
+        elif opcao == "4":
+            salario_str = input("Informe o salário total: ")
+            try:
+                salario = float(salario_str)
+            except ValueError:
+                print("Salário inválido.")
+                continue
+
+            divisao = {}
+            print("Informe os valores para cada categoria:")
+            categorias = [
+                "moradia",
+                "alimentacao",
+                "transporte",
+                "lazer",
+                "saude",
+                "educacao",
+                "guardar"
+            ]
+            soma = 0.0
+            for c in categorias:
+                valor_str = input(f"{c.capitalize()}: ")
+                try:
+                    valor = float(valor_str)
+                except ValueError:
+                    print(f"Valor inválido para {c}.")
+                    break
+                divisao[c] = valor
+                soma += valor
+            else:
+                if round(soma, 2) != round(salario, 2):
+                    print(f"Soma dos valores ({soma}) difere do salário informado ({salario}).")
+                    continue
+
+                nova_divisao = {
+                    "salario": salario,
+                    "divisao": divisao
+                }
+                resposta = editarDivisaoGastos(nova_divisao)
+                pprint(resposta)
+
+        elif opcao == "5":
+            print("Saindo do menu de planejamento...")
+            break
+
+        else:
+            print("Opção inválida. Tente novamente.")
+
 if __name__ == "__main__":
     while True:
         print("1. Notificação")
@@ -267,7 +353,8 @@ if __name__ == "__main__":
             menu_relatorio()
         elif opcao == "3":
             menu_lancamentos()
+        elif opcao == "4":
+            menu_planejamento()
         else:
             print("\nSaindo do programa... Ciao!")
             break
-    
