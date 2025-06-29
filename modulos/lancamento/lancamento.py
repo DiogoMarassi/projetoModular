@@ -3,21 +3,24 @@ Módulo Lançamentos Financeiros
 INF1301 - Programação Modular
 Responsável: Pedro Nogueira
 
-Este módulo permite ao usuário cadastrar, editar, listar e remover lançamentos financeiros,
-organizando seu fluxo de caixa. Os lançamentos podem ser de receita ou despesa.
-Inclui também o cálculo do saldo mensal.
+Este módulo permite ao usuário:
+- Cadastrar, editar, listar e remover lançamentos financeiros,
+    organizando seu fluxo de caixa. Os lançamentos podem ser de receita ou despesa.
+- Cálculo do saldo mensal
 """
 
 import json
 import os
 from datetime import datetime
 
+from config import categorias, tipos, arquivo_final_dados
+
 # Dados encapsulados - lista de lançamentos em memória
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_arquivo_dados = os.path.join(BASE_DIR, arquivo_final_dados)
+
 _lancamentos = []
 _proximo_id = 1
-_arquivo_dados = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../data/lancamentos.json"))
-
-from config import categorias, tipos
 
 
 def _carregar_dados():
@@ -61,6 +64,7 @@ def _salvar_dados():
     except IOError:
         # Em caso de erro ao salvar, continua com dados em memória
         pass
+
 
 
 def _validar_dados_lancamento(dados):

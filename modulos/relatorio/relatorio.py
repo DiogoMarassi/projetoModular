@@ -1,3 +1,13 @@
+"""
+Módulo Relatórios Financeiros
+INF1301 - Programação Modular
+Responsável: Louis Pottier
+
+Este módulo permite:
+- Fazer o resumo das finanças de um período
+- Ccomparar essas finanças entre dois anos
+"""
+
 from datetime import datetime
 import matplotlib.pyplot as plt #Para a geracao de diagrama circular
 from config import *
@@ -8,7 +18,8 @@ import os
 from fpdf import FPDF
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_ARQUIVO = os.path.join(BASE_DIR, "tests", "data", "lancamentos_testes.json")
+#_ARQUIVO = os.path.join(BASE_DIR, "tests", "data", "lancamentos_testes.json")
+_ARQUIVO = os.path.join(BASE_DIR, "data", "lancamentos.json")
 
 def _carregar_lancamentos():
     if os.path.exists(_ARQUIVO):

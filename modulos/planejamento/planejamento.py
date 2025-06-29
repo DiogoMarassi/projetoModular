@@ -1,7 +1,9 @@
 """
-Módulo de Planejamento
-Responsável pelo módulo: Pedro Basto
-Módulo responsavel por:
+Módulo Planejamento Financeiro
+INF1301 - Programação Modular
+Responsável: Pedro Basto
+
+Este módulo permite
 - Calcular um planejamento automático com base no salário do usuário que pode vir de um input ou do lançamento mais recente
 - Permitir edição manual do usuário para alterar os valores padrão
 - Persistir o planejamento para um arquivo JSON

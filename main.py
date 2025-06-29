@@ -164,7 +164,13 @@ def menu_lancamentos():
             valor = float(input("Novo valor: "))
             data_str = input("Nova data (YYYY-MM-DD): ")
             tipo = input("Novo tipo (receita/despesa): ")
-            categoria = input("Nova categoria: ")
+            while True:
+                categoria = input("Nova categoria: ")
+                if categoria in categorias:
+                    print(f"Categoria '{categoria}' válida.")
+                    break  # sai do loop se categoria é válida
+                else:
+                    print(f"Categoria inválida! Por favor, escolha uma das seguintes: {categorias}")
             try:
                 data = datetime.strptime(data_str, "%Y-%m-%d")
             except ValueError:

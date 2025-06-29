@@ -1,11 +1,14 @@
 """
-Módulo de Notificações
+Módulo Notificações
+INF1301 - Programação Modular
+Responsável: Diogo Marassi
 
-Responsável por:
+Este módulo relatórios permite:
 - Gerenciar e armazenar notificações locais
 - Enviar mensagens via Telegram usando chatId
 - Persistir notificações em arquivo JSON (apenas no encerramento da aplicação)
 """
+
 
 import json
 import os
