@@ -399,7 +399,775 @@
       "data": "2020-07-05T00:00:00",
       "tipo": "despesa",
       "categoria": "Educação"
+    },
+    {
+      "id": 51,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 52,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 54,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 55,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 56,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 57,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 58,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 60,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 61,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 62,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 63,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 64,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 66,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 67,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 68,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 69,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 70,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 72,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 73,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 74,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 75,
+      "descricao": "asdsadasd",
+      "valor": 34.0,
+      "data": "2025-04-02T00:00:00",
+      "tipo": "receita",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 76,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 77,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 79,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 80,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 81,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 83,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 84,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 85,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 86,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 87,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 89,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 90,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 91,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 93,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 94,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 95,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 96,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 97,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 99,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 100,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 101,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 103,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 104,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 105,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 106,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 107,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 109,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 110,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 111,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 113,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 114,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 115,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 116,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 117,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 119,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 120,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 121,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 123,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 124,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 125,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 126,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 127,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 129,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 130,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 131,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 133,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 134,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 135,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 136,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 137,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 139,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 140,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 141,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 143,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 144,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 145,
+      "descricao": "Salário 2024",
+      "valor": 1000.0,
+      "data": "2024-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 146,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 147,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 148,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 150,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 151,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 152,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 154,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 155,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 156,
+      "descricao": "Salário 2024",
+      "valor": 1000.0,
+      "data": "2024-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 157,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 158,
+      "descricao": "Salário",
+      "valor": 3000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 159,
+      "descricao": "Salário Atualizado",
+      "valor": 3300.0,
+      "data": "2025-07-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 161,
+      "descricao": "Compra supermercado",
+      "valor": 150.0,
+      "data": "2025-05-15T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 162,
+      "descricao": "Salário maio",
+      "valor": 2000.0,
+      "data": "2025-05-01T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 163,
+      "descricao": "Conta de luz",
+      "valor": 200.0,
+      "data": "2025-05-10T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
+    },
+    {
+      "id": 165,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 166,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 167,
+      "descricao": "Salário 2024",
+      "valor": 1000.0,
+      "data": "2024-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
+    },
+    {
+      "id": 168,
+      "descricao": "Teste Principal",
+      "valor": 1000.0,
+      "data": "2025-06-15T00:00:00",
+      "tipo": "receita",
+      "categoria": "Salario"
     }
   ],
-  "proximo_id": 51
+  "proximo_id": 169
 }

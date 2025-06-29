@@ -37,7 +37,7 @@ def ambiente_limpo():
 def test_listar_notificacoes_vazio():
     response = listarNotificacoes()
     assert response["Status"] == 404
-    assert response["Content"] == "Usuário não encontrado"
+    assert response["Content"] == 'Erro ao acessar notificações'
 
 def test_salvar_notificacao_valida():
     response = salvarNotificacao("Gasto ultrapassou limite!")

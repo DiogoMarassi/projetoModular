@@ -9,8 +9,8 @@ para que o usuário possa realizar as ações desejadas.
 
 from modulos.lancamento import *
 from modulos.relatorio import *
-from modulos.notificacao import *
-from modulos.planejamento import *
+from modulos.notificacao.notificacao import *
+from modulos.planejamento.planejamento import *
 
 from pprint import pprint #Para um pretty print no console
 from datetime import datetime
@@ -26,11 +26,11 @@ chat_id = 1665469613
 
 
 ## MENU NOTIFICACOES
-def menu_notificacoes():
+def menu_notificacoes(chat_id: int):
     while True:
         print("\n===== Menu Notificações =====")
-        print("1. Listar notificações")
-        print("2. Salvar notificação local")
+        print("1. Listar todas as notificações")
+        print("2. Filtrar notificações por data")
         print("3. Enviar notificação para Telegram")
         print("4. Resetar notificações (APAGAR TUDO)")
         print("5. Sair")
@@ -39,26 +39,28 @@ def menu_notificacoes():
 
         if opcao == "1":
             response = listarNotificacoes()
-            if "Success" in response:
+            if response["Status"] == 200:
                 print("\n📋 Notificações:")
                 for n in response["Content"]:
                     print(f"- {n['data']} : {n['conteudo']}")
             else:
-                print("\nNenhuma notificação encontrada.")
+                print(response["Content"])
 
         elif opcao == "2":
-            conteudo = input("Digite o conteúdo da notificação: ")
-            response = salvarNotificacao(conteudo)
-            if "Success" in response:
-                print("\nNotificação salva localmente.")
+            data_inicio = input("Digite a data de início (DD/MM/AAAA): ")
+            data_fim = input("Digite a data de fim (DD/MM/AAAA): ")
+            response = filtrarNotificacoesPorPeriodo(data_inicio, data_fim)
+            if response["Status"] == 200:
+                print("\n📅 Notificações no período:")
+                for n in response["Content"]:
+                    print(f"- {n['data']} : {n['conteudo']}")
             else:
-                print("\nErro ao salvar notificação.")
+                print(response["Content"])
 
         elif opcao == "3":
             conteudo = input("Digite o conteúdo da notificação: ")
-
             response = enviarNotificacao(chat_id, conteudo)
-            if "Success" in response:
+            if response["Status"] == 200:
                 print("\nMensagem enviada para o Telegram e salva localmente.")
             else:
                 print(f"\nErro: {response['Content']}")
@@ -66,6 +68,7 @@ def menu_notificacoes():
         elif opcao == "4":
             confirm = input("Tem certeza que deseja APAGAR TODAS as notificações? (s/n): ")
             if confirm.lower() == "s":
+                resetarNotificacoes()
                 print("\nTodas as notificações foram apagadas.")
             else:
                 print("\nOperação cancelada.")
@@ -76,6 +79,7 @@ def menu_notificacoes():
 
         else:
             print("\nOpção inválida. Tente novamente.")
+
 
 
 
@@ -141,22 +145,52 @@ def menu_lancamentos():
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
-            descricao = input("Descrição: ")
-            valor = float(input("Valor: "))
-            data_str = input("Data (YYYY-MM-DD): ")
-            tipo = input("Tipo (receita/despesa): ")
+            # Descrição
             while True:
-                categoria = input("Categoria: ")
-                if categoria in categorias:
-                    print(f"Categoria '{categoria}' válida.")
-                    break  # sai do loop se categoria é válida
+                descricao = input("Descrição: ").strip()
+                if descricao:
+                    break
                 else:
-                    print(f"Categoria inválida! Por favor, escolha uma das seguintes: {categorias}")
-            try:
-                data = datetime.strptime(data_str, "%Y-%m-%d")
-            except ValueError:
-                print("Data inválida.")
-                continue
+                    print("A descrição não pode ser vazia.")
+
+            # Valor
+            while True:
+                valor_str = input("Valor: ").strip()
+                try:
+                    valor = float(valor_str)
+                    if valor > 0:
+                        break
+                    else:
+                        print("O valor deve ser maior que zero.")
+                except ValueError:
+                    print("Digite um valor numérico válido.")
+
+            # Data
+            while True:
+                data_str = input("Data (YYYY-MM-DD): ").strip()
+                try:
+                    data = datetime.strptime(data_str, "%Y-%m-%d")
+                    break
+                except ValueError:
+                    print("Data inválida. Use o formato YYYY-MM-DD.")
+
+            # Tipo
+            while True:
+                tipo = input("Tipo (receita/despesa): ").strip().lower()
+                if tipo in ["receita", "despesa"]:
+                    break
+                else:
+                    print("Tipo inválido. Digite 'receita' ou 'despesa'.")
+
+            # Categoria
+            while True:
+                categoria = input("Categoria: ").strip()
+                if categoria in categorias:
+                    break
+                else:
+                    print(f"Categoria inválida! Escolha uma das seguintes: {categorias}")
+
+            # Envio dos dados
             dados = {
                 "descricao": descricao,
                 "valor": valor,
@@ -164,27 +198,67 @@ def menu_lancamentos():
                 "tipo": tipo,
                 "categoria": categoria
             }
+
             response = criarLancamento(dados)
             print(response)
 
+
         elif opcao == "2":
-            id_lanc = int(input("ID do lançamento a editar: "))
-            descricao = input("Nova descrição: ")
-            valor = float(input("Novo valor: "))
-            data_str = input("Nova data (YYYY-MM-DD): ")
-            tipo = input("Novo tipo (receita/despesa): ")
+            # ID do lançamento
             while True:
-                categoria = input("Nova categoria: ")
-                if categoria in categorias:
-                    print(f"Categoria '{categoria}' válida.")
-                    break  # sai do loop se categoria é válida
+                id_str = input("ID do lançamento a editar: ").strip()
+                if id_str.isdigit():
+                    id_lanc = int(id_str)
+                    break
                 else:
-                    print(f"Categoria inválida! Por favor, escolha uma das seguintes: {categorias}")
-            try:
-                data = datetime.strptime(data_str, "%Y-%m-%d")
-            except ValueError:
-                print("Data inválida.")
-                continue
+                    print("ID inválido. Digite um número inteiro positivo.")
+
+            # Descrição
+            while True:
+                descricao = input("Nova descrição: ").strip()
+                if descricao:
+                    break
+                else:
+                    print("A descrição não pode ser vazia.")
+
+            # Valor
+            while True:
+                valor_str = input("Novo valor: ").strip()
+                try:
+                    valor = float(valor_str)
+                    if valor > 0:
+                        break
+                    else:
+                        print("O valor deve ser maior que zero.")
+                except ValueError:
+                    print("Digite um valor numérico válido.")
+
+            # Data
+            while True:
+                data_str = input("Nova data (YYYY-MM-DD): ").strip()
+                try:
+                    data = datetime.strptime(data_str, "%Y-%m-%d")
+                    break
+                except ValueError:
+                    print("Data inválida. Use o formato YYYY-MM-DD.")
+
+            # Tipo
+            while True:
+                tipo = input("Novo tipo (receita/despesa): ").strip().lower()
+                if tipo in ["receita", "despesa"]:
+                    break
+                else:
+                    print("Tipo inválido. Digite 'receita' ou 'despesa'.")
+
+            # Categoria
+            while True:
+                categoria = input("Nova categoria: ").strip()
+                if categoria in categorias:
+                    break
+                else:
+                    print(f"Categoria inválida! Escolha uma das seguintes: {categorias}")
+
+            # Monta dados e edita
             novos_dados = {
                 "descricao": descricao,
                 "valor": valor,
@@ -192,59 +266,110 @@ def menu_lancamentos():
                 "tipo": tipo,
                 "categoria": categoria
             }
+
             response = editarLancamento(id_lanc, novos_dados)
-            print(response)
+
+            if "Success" in response:
+                print("\nLançamento editado com sucesso.")
+            else:
+                print(f"\nErro ao editar: {response['Content']}")
+
 
         elif opcao == "3":
-            id_lanc = int(input("ID do lançamento a remover: "))
+            # Remoção com validação do ID
+            while True:
+                id_str = input("ID do lançamento a remover: ").strip()
+                if id_str.isdigit():
+                    id_lanc = int(id_str)
+                    break
+                else:
+                    print("ID inválido. Digite um número inteiro positivo.")
+
             response = removerLancamento(id_lanc)
-            print(response)
+            if "Success" in response:
+                print("\n✅ Lançamento removido com sucesso.")
+            else:
+                print(f"\n❌ Erro: {response['Content']}")
 
         elif opcao == "4":
-            print("Filtros opcionais (pressione Enter para ignorar):")
-            valor = input("Valor: ")
-            data_str = input("Data (YYYY-MM-DD): ")
-            tipo = input("Tipo (receita/despesa): ")
-            categoria = input("Categoria: ")
+            print("\n🔍 Filtros opcionais (pressione Enter para ignorar):")
+
             filtros = {}
+
+            # Valor
+            valor = input("Valor: ").strip()
             if valor:
                 try:
-                    filtros["valor"] = float(valor)
+                    valor_float = float(valor)
+                    if valor_float > 0:
+                        filtros["valor"] = valor_float
+                    else:
+                        print("O valor deve ser positivo.")
+                        continue
                 except ValueError:
-                    print("Valor inválido.")
+                    print("Valor inválido. Digite um número.")
                     continue
+
+            # Data
+            data_str = input("Data (YYYY-MM-DD): ").strip()
             if data_str:
                 try:
                     filtros["data"] = datetime.strptime(data_str, "%Y-%m-%d")
                 except ValueError:
-                    print("Data inválida.")
+                    print("Data inválida. Use o formato YYYY-MM-DD.")
                     continue
+
+            # Tipo
+            tipo = input("Tipo (receita/despesa): ").strip().lower()
             if tipo:
+                if tipo not in ["receita", "despesa"]:
+                    print("Tipo inválido. Digite 'receita' ou 'despesa'.")
+                    continue
                 filtros["tipo"] = tipo
+
+            # Categoria
+            categoria = input("Categoria: ").strip()
             if categoria:
+                if categoria not in categorias:
+                    print(f"Categoria inválida! Escolha uma das seguintes: {categorias}")
+                    continue
                 filtros["categoria"] = categoria
+
+            # Consulta
             response = listarLancamentos(filtros)
-            content = response.get("Content", None)
-            if "Success" in response and isinstance(content, list):
-                print("\nLançamentos encontrados:")
-                print_lancamentos(content)
-            elif isinstance(content, str):
-                print(content)
+            if "Success" in response:
+                print("\n📄 Lançamentos encontrados:")
+                for lanc in response["Content"]:
+                    print(f"- ID {lanc['id']} | {lanc['descricao']} | R$ {lanc['valor']} | {lanc['data'].strftime('%Y-%m-%d')} | {lanc['tipo']} | {lanc['categoria']}")
             else:
-                print("Nenhum lançamento encontrado ou erro desconhecido.")
+                print(f"\n❌ {response['Content']}")
 
         elif opcao == "5":
-            mes = int(input("Mês (1-12): "))
-            ano = int(input("Ano (ex: 2025): "))
+            # Cálculo do saldo mensal
+            while True:
+                mes_str = input("Mês (1-12): ").strip()
+                ano_str = input("Ano (ex: 2025): ").strip()
+                try:
+                    mes = int(mes_str)
+                    ano = int(ano_str)
+                    if 1 <= mes <= 12 and 1900 <= ano <= 2100:
+                        break
+                    else:
+                        print("Mês ou ano fora do intervalo permitido.")
+                except ValueError:
+                    print("Digite números válidos para mês e ano.")
+
             response = calcularSaldoMensal(mes, ano)
-            print(response)
+            if "Success" in response:
+                saldo = response["Content"]["saldo"]
+                print(f"\n📊 Saldo de {mes:02d}/{ano}: R$ {saldo:.2f}")
+            else:
+                print(f"\n❌ {response['Content']}")
 
         elif opcao == "6":
-            print("Saindo do menu de lançamentos...")
+            print("\n🚪 Saindo do menu de lançamentos...")
             break
 
-        else:
-            print("Opção inválida. Tente novamente.")
 
 
 def print_lancamentos(lancamentos):
@@ -353,7 +478,7 @@ if __name__ == "__main__":
         opcao = input("Escolha uma categoria: ")
 
         if opcao == "1":
-            menu_notificacoes()
+            menu_notificacoes(chat_id)
         elif opcao == "2":
             menu_relatorio()
         elif opcao == "3":

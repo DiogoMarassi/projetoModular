@@ -9,7 +9,8 @@ import pytest
 from modulos.lancamento import *
 
 # Caminho do arquivo de dados usado pelo módulo
-ARQUIVO_DADOS = os.path.abspath(os.path.join(os.path.dirname(__file__), "../data/lancamentos.json"))
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ARQUIVO_DADOS = os.path.join(_BASE_DIR, "tests", "data", "lancamento.json")
 ARQUIVO_BACKUP = ARQUIVO_DADOS + ".bak"
 
 @pytest.fixture(autouse=True, scope="module")

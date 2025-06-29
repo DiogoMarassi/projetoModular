@@ -12,15 +12,17 @@ Este módulo permite ao usuário:
 import json
 import os
 from datetime import datetime
-
+from typing import List, Dict
+import atexit
 from config import categorias, tipos, arquivo_final_dados
 
-# Dados encapsulados - lista de lançamentos em memória
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_arquivo_dados = os.path.join(BASE_DIR, arquivo_final_dados)
 
-_lancamentos = []
-_proximo_id = 1
+# Dados encapsulados - lista de lançamentos em memória
+
+_lancamentos: List[Dict[str, object]] = []
+_proximo_id: int = 1
+_arquivo_dados = os.path.join(BASE_DIR, arquivo_final_dados)
 
 
 def _carregar_dados():
@@ -122,10 +124,13 @@ def _encontrar_lancamento_por_id(id_lancamento):
             return lancamento
     return None
 
+# Persistência entre execuções
 
 # Inicializa os dados ao importar o módulo
 _carregar_dados()
 
+# Salva os dados ao final da execução
+atexit.register(_salvar_dados)
 
 def criarLancamento(dados):
     """
@@ -140,7 +145,7 @@ def criarLancamento(dados):
         Em caso de erro: {"Error": 400, "Content": "Dados inválidos ou incompletos."}
     """
     global _proximo_id
-    
+        
     if not _validar_dados_lancamento(dados):
         return {"Error": 400, "Content": "Dados inválidos ou incompletos."}
     
@@ -156,9 +161,6 @@ def criarLancamento(dados):
     
     _lancamentos.append(novo_lancamento)
     _proximo_id += 1
-    
-    # Salva os dados
-    _salvar_dados()
     
     return {
         "Success": 201,
@@ -203,9 +205,6 @@ def editarLancamento(id_lancamento, novos_dados):
     lancamento['tipo'] = novos_dados['tipo']
     lancamento['categoria'] = novos_dados['categoria']
     
-    # Salva os dados
-    _salvar_dados()
-    
     return {"Success": 200, "Content": "Lançamento atualizado com sucesso."}
 
 
@@ -228,9 +227,6 @@ def removerLancamento(id_lancamento):
         return {"Error": 404, "Content": "Lançamento não encontrado."}
     
     _lancamentos.remove(lancamento)
-    
-    # Salva os dados
-    _salvar_dados()
     
     return {"Success": 200, "Content": "Lançamento removido com sucesso."}
 

@@ -439,5 +439,6 @@ def gerar_comparativo(ano1, ano2):
         "categorias_variacoes_extremas": [cat_mais_gasto, cat_mais_ganho],
         "resumo": resumo,
     }
-        
+    print("Finalizou legal")   
+    print(comparativo)
     return { "Status": 200, "Content": comparativo}
