@@ -1,3 +1,12 @@
+"""
+Módulo Principal
+INF1301 – Programação Modular
+Responsáveis: Todos
+
+Este módulo chama os outros quatro módulos e apresenta um menu
+para que o usuário possa realizar as ações desejadas.
+"""
+
 from modulos.lancamento import *
 from modulos.relatorio import *
 from modulos.notificacao import *
@@ -8,9 +17,9 @@ from datetime import datetime
 import os
 from dotenv import load_dotenv
 
-from config import categorias, tipos
+from config import categorias
 
-
+# Variáveis para as notificões
 load_dotenv()
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 chat_id = 1665469613
@@ -119,7 +128,7 @@ def menu_relatorio():
         else:
             print("\nOpção inválida. Tente novamente.")
 
-# MENU LANÇAMENTOS
+## MENU LANÇAMENTOS
 def menu_lancamentos():
     while True:
         print("\n===== Menu Lançamentos Financeiros =====")
@@ -252,7 +261,7 @@ def print_lancamentos(lancamentos):
         print(f"{l['id']:>2} | {data_str} | {l['tipo']:<8} | {l['categoria']:<13} | R$ {l['valor']:>8.2f} | {l['descricao']}")
 
 
-# MENU PLANEJAMENTO
+## MENU PLANEJAMENTO
 def menu_planejamento():
     while True:
         print("\n===== Menu Planejamento Financeiro =====")
@@ -330,6 +339,8 @@ def menu_planejamento():
 
         else:
             print("Opção inválida. Tente novamente.")
+
+
 
 if __name__ == "__main__":
     while True:
