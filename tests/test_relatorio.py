@@ -13,8 +13,8 @@ def test_gerar_relatorio_financeiro_sucesso():
 
 
 def test_gerar_relatorio_financeiro_sem_lancamentos():
-    periodo = {"data_inicio": datetime(2025, 1, 1),
-               "data_final": datetime(2026, 1, 31)
+    periodo = {"data_inicio": datetime(1018, 1, 1),
+               "data_final": datetime(1319, 1, 31)
                }
     response = gerar_relatorio_financeiro(periodo)
     assert response["Status"] == 404
@@ -34,7 +34,7 @@ def test_gerar_relatorio_financeiro_periodo_invalido():
 # --- Casos de testes automatizados para a geraçao do comparativo ---
 
 def test_gerar_comparativo_sucesso():
-    response = gerar_comparativo(2020, 2023)
+    response = gerar_comparativo(2021, 2023)
     assert response["Status"] == 200
     assert "diferencas" in response["Content"]
     assert "categorias_variacoes_extremas" in response["Content"]

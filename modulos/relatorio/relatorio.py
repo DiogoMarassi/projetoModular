@@ -18,13 +18,12 @@ import os
 from fpdf import FPDF
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-#_ARQUIVO = os.path.join(BASE_DIR, "tests", "data", "lancamentos_testes.json")
-_ARQUIVO = os.path.join(BASE_DIR, "data", "lancamentos.json")
+_ARQUIVO = os.path.join(BASE_DIR, arquivo_final_dados)
 
 def _carregar_lancamentos():
     if os.path.exists(_ARQUIVO):
         with open(_ARQUIVO, 'r', encoding='utf-8') as f:
-            lancamentos = json.load(f)
+            lancamentos = json.load(f)["lancamentos"]
         # Converte datas de string para datetime
         for l in lancamentos:
             if isinstance(l["data"], str):
