@@ -1,6 +1,6 @@
 from datetime import datetime
 import matplotlib.pyplot as plt #Para a geracao de diagrama circular
-from tests.data.gera_dados import tipos, categorias
+from config import *
 
 import json
 from datetime import datetime

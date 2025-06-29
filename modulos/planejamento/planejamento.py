@@ -11,15 +11,6 @@ import os
 import json
 from modulos.lancamento import listarLancamentos
 
-# Encapsulamento - Lista das funções disponibilizadas pelo módulo
-__all__ = [
-    "calculaDivisaoGastos",
-    "editarDivisaoGastos",
-    "obterDivisaoSalva",
-    "obterSalarioMaisRecente",
-    "calculaDivisaoDoUltimoSalario"
-]
-
 # Dados encapsulados - caminho do arquivo e percentuais padrão com referência a classe média do RJ
 _percentuais_padrao = { 
     "moradia": 0.30,

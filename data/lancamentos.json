@@ -23,7 +23,15 @@
       "data": "2025-06-26T00:00:00",
       "tipo": "despesa",
       "categoria": "Lazer"
+    },
+    {
+      "id": 4,
+      "descricao": "Test",
+      "valor": 333.0,
+      "data": "2020-06-06T00:00:00",
+      "tipo": "receita",
+      "categoria": "Lazer"
     }
   ],
-  "proximo_id": 4
+  "proximo_id": 5
 }

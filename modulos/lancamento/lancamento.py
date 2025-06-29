@@ -12,15 +12,6 @@ import json
 import os
 from datetime import datetime
 
-# Encapsulamento - Lista das funções disponibilizadas pelo módulo
-__all__ = [
-    "criarLancamento",
-    "editarLancamento", 
-    "removerLancamento",
-    "listarLancamentos",
-    "calcularSaldoMensal"
-]
-
 # Dados encapsulados - lista de lançamentos em memória
 _lancamentos = []
 _proximo_id = 1

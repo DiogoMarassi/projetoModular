@@ -1,14 +1,16 @@
 import json
-import os
 from datetime import datetime
 from numpy import random
 
 # Categorias e tipos possíveis
-from config import categorias, tipos
+import os
+categorias = ['Moradia', 'Alimentação', 'Transporte', 'Saúde', 'Educação', 'Lazer', 'Guardar', 'Salario', 'Outros']
+tipos = ['receita', 'despesa']
 
 # Passeio nos arquivos (até encontrar a pasta de testes)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-ARQUIVO_TESTE = os.path.join(BASE_DIR, "lancamentos_testes.json")
+_ARQUIVO = os.path.join(BASE_DIR, "lancamentos_testes.json")
+
 
 def gerar_lancamentos(quantidade=50, anos=(2020, 2024)):
     lancamentos = []
@@ -23,6 +25,7 @@ def gerar_lancamentos(quantidade=50, anos=(2020, 2024)):
         descricao = f"Lançamento {i}"
 
         lancamento = {
+            "id": i,
             "descricao": descricao,
             "valor": valor,
             "data": datetime(ano, mes, dia).isoformat(),  # transforma para string ISO
@@ -34,7 +37,7 @@ def gerar_lancamentos(quantidade=50, anos=(2020, 2024)):
 
     return lancamentos
 
-def salvar_lancamentos_em_json(lancamentos, caminho=ARQUIVO_TESTE):
+def salvar_lancamentos_em_json(lancamentos, caminho=_ARQUIVO):
     with open(caminho, 'w', encoding='utf-8') as f:
         json.dump(lancamentos, f, ensure_ascii=False, indent=4)
     print(f"{len(lancamentos)} lançamentos salvos em {caminho}")
