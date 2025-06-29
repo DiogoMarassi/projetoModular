@@ -6,7 +6,7 @@ from .relatorio import (
 )
 
 
-# __all__ define as funções que podem ser importadas ###
+### __all__ define as funções que podem ser importadas ###
 __all__ = [
     'gerar_relatorio_financeiro',
     'gerar_comparativo',

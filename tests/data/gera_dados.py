@@ -1,10 +1,18 @@
+"""
+INF1301 - Programação Modular
+Responsável: Louis Pottier
+
+Este programa permite iniciar um arquivo com dados gerados aleatoriamente
+"""
+
 import json
 from datetime import datetime
 from numpy import random
 
-# Categorias e tipos possíveis
 import os
-from config.config import categorias, tipos, arquivo_final_dados
+
+# Categorias e tipos possíveis
+from config import categorias, tipos, arquivo_final_dados
 
 _proximo_id = 1
 
@@ -14,6 +22,40 @@ _ARQUIVO = os.path.join(BASE_DIR, arquivo_final_dados)
 
 
 def gerar_lancamentos(quantidade=50, anos=(2020, 2024)):
+    """
+    Gerar aleatoriamente dados de lancamentos
+
+    Parameters
+    ----------
+    quantidade: int
+        Número de lancamentos a serem gerados
+
+    anos : tuple
+        Intervalo para as datas dos lancamentos
+
+    Returns
+    -------
+    Dict
+        {
+        "lancamentos": List of dict
+            [
+                {
+                    "id": int,
+                    "descricao": str,
+                    "valor": float,
+                    "data": datatime,
+                    "tipo": str,
+                    "categoria": str
+                }, ...
+            ],
+        "proximo_id": int
+        }
+
+    Notes
+    -----
+    Os campos 'tipo' e 'categoria' devem fazer parte das listas validas presentes no diretório config
+    """
+
     global _proximo_id
     lancamentos = []
 
@@ -41,7 +83,9 @@ def gerar_lancamentos(quantidade=50, anos=(2020, 2024)):
     return lancamentos
 
 def _salvar_dados():
-    """Salva os dados da memória para o arquivo JSON"""
+    """
+    Salva os dados da memória para o arquivo JSON especificado
+    """
 
     lancamentos = gerar_lancamentos()
 
