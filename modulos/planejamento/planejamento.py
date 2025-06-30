@@ -62,8 +62,7 @@ def calculaDivisaoGastos(salarioBaseUsuario):
     """
     global _dados_planejamento
 
-    if not isinstance(salarioBaseUsuario, (int, float)) or salarioBaseUsuario <= 1630:
-        return {"Error": 400, "Content": "Salário Inválido"}
+
 
     divisao = {
         categoria: round(salarioBaseUsuario * percentual, 2)

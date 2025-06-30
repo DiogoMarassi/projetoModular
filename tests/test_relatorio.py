@@ -34,7 +34,7 @@ def test_gerar_relatorio_financeiro_periodo_invalido():
 # --- Casos de testes automatizados para a geraçao do comparativo ---
 
 def test_gerar_comparativo_sucesso():
-    response = gerar_comparativo(2021, 2023)
+    response = gerar_comparativo(2024, 2025)
     assert response["Status"] == 200
     assert "diferencas" in response["Content"]
     assert "categorias_variacoes_extremas" in response["Content"]

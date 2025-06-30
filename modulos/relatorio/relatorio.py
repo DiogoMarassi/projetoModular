@@ -18,7 +18,7 @@ import os
 from fpdf import FPDF
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_ARQUIVO = os.path.join(BASE_DIR, arquivo_final_dados)
+_ARQUIVO = os.path.join(BASE_DIR, 'data/lancamentos.json')
 
 def _carregar_lancamentos():
     if os.path.exists(_ARQUIVO):
