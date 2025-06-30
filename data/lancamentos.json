@@ -1,117 +1,13 @@
 {
   "lancamentos": [
     {
-      "id": 1,
+      "id": 18,
       "descricao": "Salário",
-      "valor": 3500.0,
-      "data": "2025-07-01T00:00:00",
+      "valor": 6000.0,
+      "data": "2025-06-01T00:00:00",
       "tipo": "receita",
       "categoria": "Salario"
-    },
-    {
-      "id": 2,
-      "descricao": "Supermercado",
-      "valor": 200.0,
-      "data": "2025-07-05T00:00:00",
-      "tipo": "despesa",
-      "categoria": "Alimentação"
-    },
-    {
-      "id": 3,
-      "descricao": "Restaurante",
-      "valor": 333.0,
-      "data": "2025-06-26T00:00:00",
-      "tipo": "despesa",
-      "categoria": "Lazer"
-    },
-    {
-      "id": 4,
-      "descricao": "Test",
-      "valor": 333.0,
-      "data": "2020-06-06T00:00:00",
-      "tipo": "receita",
-      "categoria": "Lazer"
-    },
-    {
-      "id": 5,
-      "descricao": "asdasdas",
-      "valor": 34343.0,
-      "data": "2024-01-24T00:00:00",
-      "tipo": "receita",
-      "categoria": "Moradia"
-    },
-    {
-      "id": 7,
-      "descricao": "Teste Principal",
-      "valor": 1000.0,
-      "data": "2025-06-15T00:00:00",
-      "tipo": "receita",
-      "categoria": "Salario"
-    },
-    {
-      "id": 8,
-      "descricao": "Teste Principal",
-      "valor": 1000.0,
-      "data": "2025-06-15T00:00:00",
-      "tipo": "receita",
-      "categoria": "Salario"
-    },
-    {
-      "id": 9,
-      "descricao": "Salário 2024",
-      "valor": 1000.0,
-      "data": "2024-06-15T00:00:00",
-      "tipo": "receita",
-      "categoria": "Salario"
-    },
-    {
-      "id": 10,
-      "descricao": "Teste Principal",
-      "valor": 1000.0,
-      "data": "2025-06-15T00:00:00",
-      "tipo": "receita",
-      "categoria": "Salario"
-    },
-    {
-      "id": 12,
-      "descricao": "Teste Principal",
-      "valor": 1000.0,
-      "data": "2025-06-15T00:00:00",
-      "tipo": "receita",
-      "categoria": "Salario"
-    },
-    {
-      "id": 13,
-      "descricao": "Teste Principal",
-      "valor": 1000.0,
-      "data": "2025-06-15T00:00:00",
-      "tipo": "receita",
-      "categoria": "Salario"
-    },
-    {
-      "id": 14,
-      "descricao": "Salário 2024",
-      "valor": 1000.0,
-      "data": "2024-06-15T00:00:00",
-      "tipo": "receita",
-      "categoria": "Salario"
-    },
-    {
-      "id": 15,
-      "descricao": "Teste Principal",
-      "valor": 1000.0,
-      "data": "2025-06-15T00:00:00",
-      "tipo": "receita",
-      "categoria": "Salario"
-    },
-    {
-      "id": 16,
-      "descricao": "asdasdasd",
-      "valor": 9999.0,
-      "data": "2000-01-01T00:00:00",
-      "tipo": "receita",
-      "categoria": "Moradia"
     }
   ],
-  "proximo_id": 17
+  "proximo_id": 19
 }

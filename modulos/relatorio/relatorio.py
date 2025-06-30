@@ -10,7 +10,7 @@ Este módulo permite:
 
 from datetime import datetime
 import matplotlib.pyplot as plt #Para a geracao de diagrama circular
-from config import *
+from config import arquivo_final_dados, categorias, tipos
 
 import json
 from datetime import datetime

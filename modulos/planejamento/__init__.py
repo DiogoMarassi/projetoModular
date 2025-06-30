@@ -1,4 +1,4 @@
-### __init__.py define o diretório 'relatorio' como um módulo ###
+### __init__.py define o diretório 'relatorio' como um módulo importável ###
 from .planejamento import (
     calculaDivisaoGastos,
     editarDivisaoGastos,
@@ -7,7 +7,7 @@ from .planejamento import (
     listarLancamentos
 )
 
-### __all__ define as funções que podem ser importadas ###
+### __all__ define as funções que podem ser importadas pelo * ###
 __all__ = [
     'calculaDivisaoGastos',
     'editarDivisaoGastos',

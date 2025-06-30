@@ -152,13 +152,13 @@ def criarLancamento(dados):
                tipo (string), categoria (string)
     
     Retorna:
-        Em caso de sucesso: {"Success": 201, "Content": {"id": int, "dados": dict}}
-        Em caso de erro: {"Error": 400, "Content": "Dados inválidos ou incompletos."}
+        Em caso de sucesso: {"Status": 201, "Content": {"id": int, "dados": dict}}
+        Em caso de erro: {"Status": 400, "Content": "Dados inválidos ou incompletos."}
     """
     global _proximo_id
         
     if not _validar_dados_lancamento(dados):
-        return {"Error": 400, "Content": "Dados inválidos ou incompletos."}
+        return {"Status": 400, "Content": "Dados inválidos ou incompletos."}
     
     # Cria o novo lançamento
     novo_lancamento = {
@@ -174,7 +174,7 @@ def criarLancamento(dados):
     _proximo_id += 1
     
     return {
-        "Success": 201,
+        "Status": 201,
         "Content": {
             "id": novo_lancamento['id'],
             "descricao": novo_lancamento['descricao'],
@@ -195,19 +195,19 @@ def editarLancamento(id_lancamento, novos_dados):
         novos_dados: Novos dados do lançamento
     
     Retorna:
-        Em caso de sucesso: {"Success": 200, "Content": "Lançamento atualizado com sucesso."}
-        Em caso de dados inválidos: {"Error": 400, "Content": "Dados inválidos."}
-        Em caso de lançamento não encontrado: {"Error": 404, "Content": "Lançamento não encontrado."}
+        Em caso de sucesso: {"Status": 200, "Content": "Lançamento atualizado com sucesso."}
+        Em caso de dados inválidos: {"Status": 400, "Content": "Dados inválidos."}
+        Em caso de lançamento não encontrado: {"Status": 404, "Content": "Lançamento não encontrado."}
     """
     if not isinstance(id_lancamento, int):
-        return {"Error": 400, "Content": "Dados inválidos."}
+        return {"Status": 400, "Content": "Dados inválidos."}
     
     lancamento = _encontrar_lancamento_por_id(id_lancamento)
     if not lancamento:
-        return {"Error": 404, "Content": "Lançamento não encontrado."}
+        return {"Status": 404, "Content": "Lançamento não encontrado."}
     
     if not _validar_dados_lancamento(novos_dados):
-        return {"Error": 400, "Content": "Dados inválidos."}
+        return {"Status": 400, "Content": "Dados inválidos."}
     
     # Atualiza os dados do lançamento
     lancamento['descricao'] = novos_dados['descricao'].strip()
@@ -216,7 +216,7 @@ def editarLancamento(id_lancamento, novos_dados):
     lancamento['tipo'] = novos_dados['tipo']
     lancamento['categoria'] = novos_dados['categoria']
     
-    return {"Success": 200, "Content": "Lançamento atualizado com sucesso."}
+    return {"Status": 200, "Content": "Lançamento atualizado com sucesso."}
 
 
 def removerLancamento(id_lancamento):
@@ -227,29 +227,28 @@ def removerLancamento(id_lancamento):
         id_lancamento: ID do lançamento a ser removido
     
     Retorna:
-        Em caso de sucesso: {"Success": 200, "Content": "Lançamento removido com sucesso."}
-        Em caso de lançamento não encontrado: {"Error": 404, "Content": "Lançamento não encontrado."}
+        Em caso de sucesso: {"Status": 200, "Content": "Lançamento removido com sucesso."}
+        Em caso de lançamento não encontrado: {"Status": 404, "Content": "Lançamento não encontrado."}
     """
     if not isinstance(id_lancamento, int):
-        return {"Error": 404, "Content": "Lançamento não encontrado."}
+        return {"Status": 404, "Content": "Lançamento não encontrado."}
     
     lancamento = _encontrar_lancamento_por_id(id_lancamento)
     if not lancamento:
-        return {"Error": 404, "Content": "Lançamento não encontrado."}
+        return {"Status": 404, "Content": "Lançamento não encontrado."}
     
     _lancamentos.remove(lancamento)
     
-    return {"Success": 200, "Content": "Lançamento removido com sucesso."}
+    return {"Status": 200, "Content": "Lançamento removido com sucesso."}
 
 
+from config import filtros_validos
 def listarLancamentos(filtros=None):
     if filtros is None:
         filtros = {}
-
-    filtros_validos = {'valor', 'data', 'tipo', 'categoria'}
     for chave in filtros:
         if chave not in filtros_validos:
-            return {"Error": 400, "Content": f"Filtro inválido: {chave}"}
+            return {"Status": 400, "Content": f"Filtro inválido: {chave}"}
 
     lancamentos_filtrados = []
 
@@ -284,11 +283,11 @@ def listarLancamentos(filtros=None):
             lancamentos_filtrados.append(lancamento.copy())
 
     if not lancamentos_filtrados:
-        return {"Error": 404, "Content": "Nenhum lançamento encontrado."}
+        return {"Status": 404, "Content": "Nenhum lançamento encontrado."}
 
     lancamentos_filtrados.sort(key=lambda x: x['data'], reverse=True)
 
-    return {"Success": 200, "Content": lancamentos_filtrados}
+    return {"Status": 200, "Content": lancamentos_filtrados}
 
 
 
@@ -301,11 +300,11 @@ def calcularSaldoMensal(mes, ano):
         ano: Ano
     
     Retorna:
-        Em caso de sucesso: {"Success": 200, "Content": {"saldo": float, "mes": int, "ano": int}}
-        Em caso de data inválida: {"Error": 400, "Content": "Data inválida"}
+        Em caso de sucesso: {"Status": 200, "Content": {"saldo": float, "mes": int, "ano": int}}
+        Em caso de data inválida: {"Status": 400, "Content": "Data inválida"}
     """
     if not _validar_data(mes, ano):
-        return {"Error": 400, "Content": "Data inválida"}
+        return {"Status": 400, "Content": "Data inválida"}
     
     saldo = 0.0
     
@@ -317,7 +316,7 @@ def calcularSaldoMensal(mes, ano):
                 saldo -= lancamento['valor']
     
     return {
-        "Success": 200,
+        "Status": 200,
         "Content": {
             "saldo": round(saldo, 2),
             "mes": mes,
