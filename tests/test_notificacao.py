@@ -9,17 +9,14 @@ from modulos.notificacao.notificacao import (
 )
 from dotenv import load_dotenv
 
-# ---------------------
+
 # Setup de ambiente
-# ---------------------
 load_dotenv()
 CHAT_ID_VALIDO = int(os.getenv("TELEGRAM_CHAT_ID", "0"))  # Pode ser mockado
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARQUIVO_TESTE = os.path.join(BASE_DIR, "tests", "data", "notificacoes.json")
 
-# ---------------------
 # Fixture para preparar ambiente limpo
-# ---------------------
 @pytest.fixture(autouse=True)
 def ambiente_limpo():
     setArquivoPersistencia(ARQUIVO_TESTE)
@@ -30,10 +27,8 @@ def ambiente_limpo():
     if os.path.exists(ARQUIVO_TESTE):
         os.remove(ARQUIVO_TESTE)
 
-# ---------------------
-# Casos de teste
-# ---------------------
 
+# Casos de teste
 def test_listar_notificacoes_vazio():
     response = listarNotificacoes()
     assert response["Status"] == 404

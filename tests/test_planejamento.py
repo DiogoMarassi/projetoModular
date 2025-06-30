@@ -5,18 +5,21 @@ Arquivo de teste para demonstrar o uso do módulo de planejamentos financeiros
 import os
 import json
 import pytest
-
+from modulos.lancamento import listarLancamentos
+from modulos import planejamento
+from unittest.mock import patch
+from datetime import datetime
+from modulos.lancamento import criarLancamento, resetarDados
 from modulos.planejamento import (
     calculaDivisaoGastos,
     editarDivisaoGastos,
-    obterDivisaoSalva,
-)
+    obterDivisaoSalva)
+
 
 # Caminho do arquivo de dados usado pelo módulo
 CAMINHO_ARQUIVO = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "../data/planejamento.json")
 )
-
 
 def teardown_module(module):
     """
@@ -92,12 +95,17 @@ def test_obter_divisao_salva():
     assert response["Content"]["salario"] == salario
 
 
-@pytest.mark.skip(reason="Teste do salário mais recente depende de lançamentos.")
-def test_calcula_divisao_do_ultimo_salario():
-    """
-    Exemplo de como testar calculaDivisaoDoUltimoSalario()
-    Mas este teste só passa se houver lançamentos válidos cadastrados.
-    """
-    from modulos.planejamento import calculaDivisaoDoUltimoSalario
-    response = calculaDivisaoDoUltimoSalario()
-    assert "Success" in response or "Error" in response
+def test_calcula_divisao_com_dados_reais():
+    resetarDados()
+    criarLancamento({
+        "descricao": "Salário",
+        "valor": 6000.0,
+        "data": datetime(2025, 6, 1),
+        "tipo": "receita",
+        "categoria": "Salario"
+    })
+
+    resultado = planejamento.calculaDivisaoDoUltimoSalario()
+    print(resultado)
+    assert resultado["Success"] == 200
+    assert isinstance(resultado["Content"], dict)

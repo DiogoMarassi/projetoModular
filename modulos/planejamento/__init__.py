@@ -3,7 +3,8 @@ from .planejamento import (
     calculaDivisaoGastos,
     editarDivisaoGastos,
     obterDivisaoSalva,
-    calculaDivisaoDoUltimoSalario
+    calculaDivisaoDoUltimoSalario,
+    listarLancamentos
 )
 
 ### __all__ define as funções que podem ser importadas ###
@@ -12,5 +13,6 @@ __all__ = [
     'editarDivisaoGastos',
     'obterDivisaoSalva',
     'obterSalarioMaisRecente',
-    'calculaDivisaoDoUltimoSalario'
+    'calculaDivisaoDoUltimoSalario',
+    "listarLancamentos"
 ]

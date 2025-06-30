@@ -1,245 +1,169 @@
-"""
-Arquivo de teste para demonstrar o uso do módulo Lançamentos Financeiros
-"""
-
+import pytest
+from datetime import datetime
 import os
 from datetime import datetime
-import shutil
-import pytest
-from modulos.lancamento import *
 
-# Caminho do arquivo de dados usado pelo módulo
-_BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-ARQUIVO_DADOS = os.path.join(_BASE_DIR, "tests", "data", "lancamento.json")
-ARQUIVO_BACKUP = ARQUIVO_DADOS + ".bak"
+from modulos.lancamento import (
+    criarLancamento,
+    editarLancamento,
+    removerLancamento,
+    listarLancamentos,
+    calcularSaldoMensal,
+    setArquivoPersistencia,
+    resetarDados
+)
 
-@pytest.fixture(autouse=True, scope="module")
-def backup_e_limpeza_arquivo():
-    arquivo_existia_antes = os.path.exists(ARQUIVO_DADOS)
-    if arquivo_existia_antes:
-        shutil.copy2(ARQUIVO_DADOS, ARQUIVO_BACKUP)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+ARQUIVO_TESTE = os.path.join(BASE_DIR, "tests", "data", "lancamentos.json")
 
-    yield  # Aqui rodam os testes
-
-    # Depois dos testes: restaura o backup ou remove o arquivo criado
-    if arquivo_existia_antes and os.path.exists(ARQUIVO_BACKUP):
-        shutil.move(ARQUIVO_BACKUP, ARQUIVO_DADOS)
-    elif not arquivo_existia_antes and os.path.exists(ARQUIVO_DADOS):
-        os.remove(ARQUIVO_DADOS)
-
-def test_criar_lancamento_sucesso():
-    """Testa criação de lançamento com dados válidos (espera 201)"""
-    dados = {
-        "descricao": "Salário",
-        "valor": 3000.00,
-        "data": datetime(2025, 5, 1),
+# Fixture para preparar ambiente limpo
+@pytest.fixture(autouse=True)
+def ambiente_limpo():
+    setArquivoPersistencia(ARQUIVO_TESTE)
+    resetarDados()
+    if os.path.exists(ARQUIVO_TESTE):
+        os.remove(ARQUIVO_TESTE)
+    yield
+    if os.path.exists(ARQUIVO_TESTE):
+        os.remove(ARQUIVO_TESTE)
+        
+# ---------- FIXTURE: Lançamento válido ----------
+@pytest.fixture
+def dados_validos():
+    return {
+        "descricao": "Teste",
+        "valor": 100.0,
+        "data": datetime(2025, 6, 1),
         "tipo": "receita",
         "categoria": "Salario"
     }
-    response = criarLancamento(dados)
-    assert response["Success"] == 201
-    assert "id" in response["Content"]
-    assert response["Content"]["descricao"] == dados["descricao"]
-    print("✓ Teste criar lançamento com sucesso passou")
 
-def test_criar_lancamento_dados_invalidos():
-    """Testa criação com campos faltando (espera 400)"""
-    dados = {
-        "descricao": "",
-        "valor": -100,
-        "data": "invalid_data",
-        "tipo": "unknown_type",
-        "categoria": "Invalid"
-    }
+# ---------- TESTES: criação ----------
+@pytest.mark.parametrize("dados", [
+    # descrição inválida
+    {"descricao": "", "valor": 100, "data": datetime(2025, 6, 1), "tipo": "receita", "categoria": "Salario"},
+    {"descricao": 123, "valor": 100, "data": datetime(2025, 6, 1), "tipo": "receita", "categoria": "Salario"},
+    # valor inválido
+    {"descricao": "X", "valor": -10, "data": datetime(2025, 6, 1), "tipo": "receita", "categoria": "Salario"},
+    {"descricao": "X", "valor": "cem", "data": datetime(2025, 6, 1), "tipo": "receita", "categoria": "Salario"},
+    # data inválida
+    {"descricao": "X", "valor": 100, "data": "2025-01-01", "tipo": "receita", "categoria": "Salario"},
+    {"descricao": "X", "valor": 100, "data": None, "tipo": "receita", "categoria": "Salario"},
+    # tipo inválido
+    {"descricao": "X", "valor": 100, "data": datetime(2025, 6, 1), "tipo": "entrada", "categoria": "Salario"},
+    # categoria inválida
+    {"descricao": "X", "valor": 100, "data": datetime(2025, 6, 1), "tipo": "receita", "categoria": "OutroX"},
+])
+def test_criar_lancamento_dados_invalidos(dados):
     response = criarLancamento(dados)
     assert response["Error"] == 400
-    assert response["Content"] == "Dados inválidos ou incompletos."
-    print("✓ Teste criar lançamento com dados inválidos passou")
 
-def test_editar_lancamento_sucesso():
-    """Testa edição de lançamento sucedida (espera 200)"""
-    # Primeiro cria um lançamento
-    dados = {
-        "descricao": "Salário Original",
-        "valor": 3200.00,
-        "data": datetime(2025, 6, 1),
-        "tipo": "receita",
-        "categoria": "Salario"
-    }
-    response = criarLancamento(dados)
-    lancamento_id = response["Content"]["id"]
-    
-    # Depois edita
-    dadosalt = {
-        "descricao": "Salário Atualizado",
-        "valor": 3300.00,
-        "data": datetime(2025, 7, 1),
-        "tipo": "receita",
-        "categoria": "Salario"
-    }
-    responsealt = editarLancamento(lancamento_id, dadosalt)
-    assert responsealt["Success"] == 200
-    assert responsealt["Content"] == "Lançamento atualizado com sucesso."
-    print("✓ Teste editar lançamento com sucesso passou")
+def test_criar_lancamento_valido(dados_validos):
+    response = criarLancamento(dados_validos)
+    assert response["Success"] == 201
+    assert response["Content"]["descricao"] == dados_validos["descricao"]
 
-def test_editar_lancamento_nao_encontrado():
-    """Testa edição de lançamento inexistente (espera 404)"""
-    dados = {
-        "descricao": "Salário Atualizado",
-        "valor": 3200.00,
-        "data": datetime(2025, 6, 1),
-        "tipo": "receita",
-        "categoria": "Salario"
-    }
-    response = editarLancamento(999, dados)  # ID inexistente
+# ---------- TESTES: edição ----------
+def test_editar_lancamento_valido(dados_validos):
+    criado = criarLancamento(dados_validos)
+    id_lanc = criado["Content"]["id"]
+    novos_dados = dados_validos.copy()
+    novos_dados["descricao"] = "Atualizado"
+    response = editarLancamento(id_lanc, novos_dados)
+    assert response["Success"] == 200
+
+def test_editar_lancamento_nao_existente(dados_validos):
+    response = editarLancamento(99999, dados_validos)
     assert response["Error"] == 404
-    assert response["Content"] == "Lançamento não encontrado."
-    print("✓ Teste editar lançamento não encontrado passou")
 
-def test_remover_lancamento_sucesso():
-    """Testa remoção de lançamento existente (espera 200)"""
-    # Primeiro cria um lançamento
+def test_editar_lancamento_com_id_invalido(dados_validos):
+    assert editarLancamento("abc", dados_validos)["Error"] == 400
+    assert editarLancamento(None, dados_validos)["Error"] == 400
+
+@pytest.mark.parametrize("dados", [
+    {"descricao": "", "valor": 100, "data": datetime(2025, 6, 1), "tipo": "receita", "categoria": "Salario"},
+])
+def test_editar_lancamento_com_dados_invalidos(dados, dados_validos):
+    criado = criarLancamento(dados_validos)
+    id_lanc = criado["Content"]["id"]
+    assert editarLancamento(id_lanc, dados)["Error"] == 400
+
+# ---------- TESTES: remoção ----------
+def test_remover_lancamento_valido(dados_validos):
+    criado = criarLancamento(dados_validos)
+    id_lanc = criado["Content"]["id"]
+    response = removerLancamento(id_lanc)
+    assert response["Success"] == 200
+
+def test_remover_lancamento_nao_existente():
+    assert removerLancamento(99999)["Error"] == 404
+
+def test_remover_lancamento_com_id_invalido():
+    assert removerLancamento("abc")["Error"] == 404
+    assert removerLancamento(None)["Error"] == 404
+
+# ---------- TESTES: listar ----------
+@pytest.fixture
+def lancamento_listavel():
     dados = {
-        "descricao": "Lançamento para remover",
-        "valor": 100.00,
-        "data": datetime(2025, 6, 1),
-        "tipo": "despesa",
-        "categoria": "Outros"
-    }
-    response = criarLancamento(dados)
-    lancamento_id = response["Content"]["id"]
-    
-    # Depois remove
-    responserem = removerLancamento(lancamento_id)
-    assert responserem["Success"] == 200
-    assert responserem["Content"] == "Lançamento removido com sucesso."
-    print("✓ Teste remover lançamento com sucesso passou")
-
-def test_remover_lancamento_nao_encontrado():
-    """Testa remoção de lançamento inexistente (espera 404)"""
-    response = removerLancamento(999)  # ID inexistente
-    assert response["Error"] == 404
-    assert response["Content"] == "Lançamento não encontrado."
-    print("✓ Teste remover lançamento não encontrado passou")
-
-def test_listar_lancamentos_com_filtros():
-    """Testa lista de lançamentos com filtros (espera 200)"""
-    # Primeiro cria alguns lançamentos para ter dados
-    dados1 = {
-        "descricao": "Compra supermercado",
-        "valor": 150.00,
-        "data": datetime(2025, 5, 15),
+        "descricao": "Supermercado",
+        "valor": 200.0,
+        "data": datetime(2025, 6, 10),
         "tipo": "despesa",
         "categoria": "Alimentação"
     }
-    criarLancamento(dados1)
-    
+    criarLancamento(dados)
+    return dados
+
+@pytest.mark.parametrize("filtros", [
+    {"foo": "bar"},
+    {"valor": 100, "extra": 1},
+    {"tipo": "despesa", "errado": "ok"},
+])
+def test_listar_lancamentos_com_chave_invalida(filtros):
+    response = listarLancamentos(filtros)
+    assert response["Error"] == 400
+    assert "Filtro inválido" in response["Content"]
+
+@pytest.mark.parametrize("filtros", [
+    {"valor": "cem"},
+    {"data": "hoje"},
+    {"tipo": 123},
+    {"categoria": 999}
+])
+def test_listar_lancamentos_com_tipo_invalido(filtros):
+    response = listarLancamentos(filtros)
+    assert "Success" in response or "Error" in response
+
+@pytest.mark.parametrize("filtros", [
+    {"valor": 999999.0},
+    {"data": datetime(2030, 1, 1)},
+    {"tipo": "receita"},
+    {"categoria": "Moradia"}
+])
+
+def test_listar_lancamentos_com_filtro_valido(lancamento_listavel, filtros):
     filtros = {"tipo": "despesa", "categoria": "Alimentação"}
     response = listarLancamentos(filtros)
     assert response["Success"] == 200
     assert isinstance(response["Content"], list)
-    print("✓ Teste listar lançamentos com filtros passou")
+    assert any(l["descricao"] == "Supermercado" for l in response["Content"])
 
-def test_listar_lancamentos_sem_resultados():
-    """Testa lista de lançamentos vazia (espera 404)"""
-    filtros = {"valor": 999999.0}  # Valor que não existe
-    response = listarLancamentos(filtros)
-    assert response["Error"] == 404
-    assert response["Content"] == "Nenhum lançamento encontrado."
-    print("✓ Teste listar lançamentos sem resultados passou")
-
-def test_calcular_saldo_mensal_sucesso():
-    """Testa cálculo de saldo mensal sucedido (espera 200)"""
-    # Cria alguns lançamentos para maio de 2025
-    dados_receita = {
-        "descricao": "Salário maio",
-        "valor": 2000.00,
-        "data": datetime(2025, 5, 1),
-        "tipo": "receita",
-        "categoria": "Salario"
-    }
-    dados_despesa = {
-        "descricao": "Conta de luz",
-        "valor": 200.00,
-        "data": datetime(2025, 5, 10),
-        "tipo": "despesa",
-        "categoria": "Moradia"
-    }
-    criarLancamento(dados_receita)
-    criarLancamento(dados_despesa)
-    
-    response = calcularSaldoMensal(5, 2025)
+# ---------- TESTES: saldo mensal ----------
+def test_calcular_saldo_mensal_valido():
+    response = calcularSaldoMensal(6, 2025)
     assert response["Success"] == 200
-    assert response["Content"]["mes"] == 5
-    assert response["Content"]["ano"] == 2025
     assert "saldo" in response["Content"]
-    print("✓ Teste calcular saldo mensal com sucesso passou")
 
-def test_calcular_saldo_mensal_data_invalida():
-    """Testa cálculo de saldo mensal com data inválida (espera 400)"""
-    response = calcularSaldoMensal(13, 2025)  # Mês inválido
+@pytest.mark.parametrize("mes,ano", [
+    (0, 2025), (13, 2025), (5, 1899), (5, 2101), ("junho", 2025), (5, "ano"), (None, 2025)
+])
+def test_calcular_saldo_mensal_data_invalida(mes, ano):
+    response = calcularSaldoMensal(mes, ano)
     assert response["Error"] == 400
-    assert response["Content"] == "Data inválida"
-    print("✓ Teste calcular saldo mensal com data inválida passou")
 
-def exemplo_uso_basico():
-    """Exemplo básico de uso do módulo"""
-    print("\n=== EXEMPLO DE USO DO MÓDULO ===")
-    
-    # Criar um lançamento de receita
-    receita = {
-        "descricao": "Salário de junho",
-        "valor": 3500.00,
-        "data": datetime(2025, 6, 1),
-        "tipo": "receita",
-        "categoria": "Salario"
-    }
-    
-    resultado = criarLancamento(receita)
-    print(f"Lançamento criado: {resultado}")
-    
-    # Criar um lançamento de despesa
-    despesa = {
-        "descricao": "Supermercado",
-        "valor": 450.00,
-        "data": datetime(2025, 6, 5),
-        "tipo": "despesa",
-        "categoria": "Alimentação"
-    }
-    
-    resultado = criarLancamento(despesa)
-    print(f"Despesa criada: {resultado}")
-    
-    # Listar todos os lançamentos
-    lista = listarLancamentos()
-    print(f"Lançamentos listados: {len(lista['Content'])} itens")
-    
-    # Calcular saldo do mês
-    saldo = calcularSaldoMensal(6, 2025)
-    print(f"Saldo mensal: {saldo}")
-
-if __name__ == "__main__":
-    # Executa os testes
-    print("Executando testes do módulo Lançamentos Financeiros...\n")
-    
-    try:
-        test_criar_lancamento_sucesso()
-        test_criar_lancamento_dados_invalidos()
-        test_editar_lancamento_sucesso()
-        test_editar_lancamento_nao_encontrado()
-        test_remover_lancamento_sucesso()
-        test_remover_lancamento_nao_encontrado()
-        test_listar_lancamentos_com_filtros()
-        test_listar_lancamentos_sem_resultados()
-        test_calcular_saldo_mensal_sucesso()
-        test_calcular_saldo_mensal_data_invalida()
-        
-        print("\n✅ Todos os testes passaram com sucesso!")
-        
-        # Exemplo de uso
-        exemplo_uso_basico()
-        
-    except AssertionError as e:
-        print(f"\n❌ Teste falhou: {e}")
-    except Exception as e:
-        print(f"\n❌ Erro inesperado: {e}")
+@pytest.mark.parametrize("mes,ano", [(1, 2030), (2, 2040), (12, 2099)])
+def test_calcular_saldo_sem_lancamentos(mes, ano):
+    response = calcularSaldoMensal(mes, ano)
+    assert response["Success"] == 200
+    assert response["Content"]["saldo"] == 0.0

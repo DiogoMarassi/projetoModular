@@ -3,7 +3,9 @@ from .lancamento import (
     editarLancamento,
     removerLancamento,
     listarLancamentos,
-    calcularSaldoMensal
+    calcularSaldoMensal,
+    resetarDados,
+    setArquivoPersistencia
 )
 
-__all__ = ['criarLancamento', 'editarLancamento', 'removerLancamento','listarLancamentos','calcularSaldoMensal']
+__all__ = ['criarLancamento', 'editarLancamento', 'removerLancamento','listarLancamentos','calcularSaldoMensal', 'setArquivoPersistencia', 'resetarDados']

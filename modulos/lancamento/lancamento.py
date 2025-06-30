@@ -17,13 +17,11 @@ import atexit
 from config import categorias, tipos, arquivo_final_dados
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+_arquivo_dados = os.path.join(BASE_DIR, "data", "lancamentos.json")
 # Dados encapsulados - lista de lançamentos em memória
 
 _lancamentos: List[Dict[str, object]] = []
 _proximo_id: int = 1
-_arquivo_dados = os.path.join(BASE_DIR, arquivo_final_dados)
-
 
 def _carregar_dados():
     """Carrega os dados do arquivo JSON para a memória"""
@@ -67,7 +65,20 @@ def _salvar_dados():
         # Em caso de erro ao salvar, continua com dados em memória
         pass
 
+def setArquivoPersistencia(caminho: str) -> None:
+    """
+    Altera o caminho do arquivo de persistência (para testes).
+    """
+    global _arquivo_dados
+    _arquivo_dados = caminho
+    _carregar_dados()
 
+def resetarDados() -> None:
+    """
+    Limpa todas as notificações em memória (para testes).
+    """
+    global _lancamentos
+    _lancamentos = []
 
 def _validar_dados_lancamento(dados):
     """Valida os dados de um lançamento"""
@@ -232,60 +243,53 @@ def removerLancamento(id_lancamento):
 
 
 def listarLancamentos(filtros=None):
-    """
-    Lista os lançamentos financeiros com filtros opcionais
-    
-    Parâmetros:
-        filtros: Dicionário com filtros opcionais (valor, data, tipo, categoria)
-    
-    Retorna:
-        Em caso de sucesso: {"Success": 200, "Content": [lista de lançamentos]}
-        Em caso de nenhum resultado: {"Error": 404, "Content": "Nenhum lançamento encontrado."}
-    """
     if filtros is None:
         filtros = {}
-    
+
+    filtros_validos = {'valor', 'data', 'tipo', 'categoria'}
+    for chave in filtros:
+        if chave not in filtros_validos:
+            return {"Error": 400, "Content": f"Filtro inválido: {chave}"}
+
     lancamentos_filtrados = []
-    
+
     for lancamento in _lancamentos:
         incluir = True
-        
-        # Aplica filtros
+
         if 'valor' in filtros and filtros['valor'] is not None:
+            if not isinstance(filtros['valor'], (int, float)):
+                continue
             if lancamento['valor'] != filtros['valor']:
                 incluir = False
-        
+
         if 'data' in filtros and filtros['data'] is not None:
+            if not isinstance(filtros['data'], datetime):
+                continue
             if lancamento['data'].date() != filtros['data'].date():
                 incluir = False
-        
+
         if 'tipo' in filtros and filtros['tipo'] is not None:
+            if not isinstance(filtros['tipo'], str):
+                continue
             if lancamento['tipo'] != filtros['tipo']:
                 incluir = False
-        
+
         if 'categoria' in filtros and filtros['categoria'] is not None:
+            if not isinstance(filtros['categoria'], str):
+                continue
             if lancamento['categoria'] != filtros['categoria']:
                 incluir = False
-        
+
         if incluir:
-            # Cria cópia do lançamento para retorno
-            lancamento_copy = {
-                'id': lancamento['id'],
-                'descricao': lancamento['descricao'],
-                'valor': lancamento['valor'],
-                'data': lancamento['data'],
-                'tipo': lancamento['tipo'],
-                'categoria': lancamento['categoria']
-            }
-            lancamentos_filtrados.append(lancamento_copy)
-    
+            lancamentos_filtrados.append(lancamento.copy())
+
     if not lancamentos_filtrados:
         return {"Error": 404, "Content": "Nenhum lançamento encontrado."}
-    
-    # Ordena por data (mais recentes primeiro)
+
     lancamentos_filtrados.sort(key=lambda x: x['data'], reverse=True)
-    
+
     return {"Success": 200, "Content": lancamentos_filtrados}
+
 
 
 def calcularSaldoMensal(mes, ano):
