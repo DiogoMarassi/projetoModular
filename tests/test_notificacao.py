@@ -1,12 +1,7 @@
 import pytest
 import os
-from modulos.notificacao.notificacao import (
-    listarNotificacoes,
-    salvarNotificacao,
-    enviarNotificacao,
-    setArquivoPersistencia,
-    resetarNotificacoes
-)
+from modulos.notificacao import *
+
 from dotenv import load_dotenv
 
 
