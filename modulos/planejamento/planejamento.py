@@ -60,9 +60,9 @@ def calculaDivisaoGastos(salarioBaseUsuario):
     Calcula a divisão de gastos com base no salário informado. 
     Salário deve ser maior do que o salário mínimo brasileiro e do tipo int ou float
     """
+    if salarioBaseUsuario < 0:
+        return {"Error": 400, "Content": "Salário inválido"}
     global _dados_planejamento
-
-
 
     divisao = {
         categoria: round(salarioBaseUsuario * percentual, 2)

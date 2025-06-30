@@ -200,10 +200,6 @@ def menu_lancamentos():
             }
 
             response = criarLancamento(dados)
-            if response["Status"] == 201:
-                print("\n✅ Lançamento criado com sucesso.")
-            else:
-                print(f"\n❌ Erro: {response['Content']}")
             print(response)
 
 
@@ -273,7 +269,7 @@ def menu_lancamentos():
 
             response = editarLancamento(id_lanc, novos_dados)
 
-            if response["Status"] == 200:
+            if "Success" in response:
                 print("\nLançamento editado com sucesso.")
             else:
                 print(f"\nErro ao editar: {response['Content']}")
@@ -290,7 +286,7 @@ def menu_lancamentos():
                     print("ID inválido. Digite um número inteiro positivo.")
 
             response = removerLancamento(id_lanc)
-            if response["Status"] == 200:
+            if "Success" in response:
                 print("\n✅ Lançamento removido com sucesso.")
             else:
                 print(f"\n❌ Erro: {response['Content']}")
@@ -341,7 +337,7 @@ def menu_lancamentos():
 
             # Consulta
             response = listarLancamentos(filtros)
-            if response["Status"] == 200:
+            if "Success" in response:
                 print("\n📄 Lançamentos encontrados:")
                 for lanc in response["Content"]:
                     print(f"- ID {lanc['id']} | {lanc['descricao']} | R$ {lanc['valor']} | {lanc['data'].strftime('%Y-%m-%d')} | {lanc['tipo']} | {lanc['categoria']}")
@@ -364,7 +360,7 @@ def menu_lancamentos():
                     print("Digite números válidos para mês e ano.")
 
             response = calcularSaldoMensal(mes, ano)
-            if response["Status"] == 200:
+            if "Success" in response:
                 saldo = response["Content"]["saldo"]
                 print(f"\n📊 Saldo de {mes:02d}/{ano}: R$ {saldo:.2f}")
             else:

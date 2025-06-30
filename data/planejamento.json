@@ -1,12 +1,12 @@
 {
-    "salario": 6000.0,
+    "salario": 3000.0,
     "divisao": {
-        "moradia": 1800.0,
-        "alimentacao": 1200.0,
+        "moradia": 900.0,
+        "alimentacao": 600.0,
         "transporte": 300.0,
-        "saude": 600.0,
-        "educacao": 600.0,
-        "lazer": 600.0,
-        "guardar": 900.0
+        "lazer": 300.0,
+        "saude": 300.0,
+        "educacao": 300.0,
+        "guardar": 300.0
     }
 }

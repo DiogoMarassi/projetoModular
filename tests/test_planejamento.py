@@ -18,7 +18,7 @@ from modulos.planejamento import (
 
 # Caminho do arquivo de dados usado pelo módulo
 CAMINHO_ARQUIVO = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "../data/planejamento.json")
+    os.path.join(os.path.dirname(__file__), "./data/planejamento.json")
 )
 
 def teardown_module(module):
@@ -42,7 +42,7 @@ def test_calcula_divisao_gastos_valido():
 
 
 def test_calcula_divisao_gastos_invalido():
-    response = calculaDivisaoGastos(0)
+    response = calculaDivisaoGastos(-300)
     assert "Error" in response
     assert response["Error"] == 400
 

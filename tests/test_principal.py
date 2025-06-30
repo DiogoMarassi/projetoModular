@@ -27,16 +27,16 @@ def lancamento_teste():
 
 def test_criar_editar_remover_lancamento(lancamento_teste):
     response = criarLancamento(lancamento_teste)
-    assert "Success" in response
+    assert response.get("Status") == 201
     lanc_id = response["Content"]["id"]
 
     novos_dados = lancamento_teste.copy()
     novos_dados["valor"] = 1200.0
     response_edit = editarLancamento(lanc_id, novos_dados)
-    assert "Success" in response_edit
+    assert response_edit.get("Status") == 200
 
     response_remove = removerLancamento(lanc_id)
-    assert "Success" in response_remove
+    assert response_remove.get("Status") == 200
 
 
 def test_listar_lancamentos_com_filtros(lancamento_teste):
@@ -47,14 +47,14 @@ def test_listar_lancamentos_com_filtros(lancamento_teste):
         "categoria": lancamento_teste["categoria"]
     }
     response = listarLancamentos(filtros)
-    assert "Success" in response
+    assert response.get("Status") == 200   
     assert isinstance(response["Content"], list)
 
 
 def test_calcular_saldo_mensal_com_lancamento(lancamento_teste):
     criarLancamento(lancamento_teste)
     response = calcularSaldoMensal(6, 2025)
-    assert "Success" in response
+    assert response.get("Status") == 200    
     assert response["Content"]["mes"] == 6
     assert isinstance(response["Content"]["saldo"], float)
 
