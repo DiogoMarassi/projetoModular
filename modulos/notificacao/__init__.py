@@ -1,7 +1,8 @@
 from .notificacao import (
     listarNotificacoes,
     enviarNotificacao,
-    filtrarNotificacoesPorPeriodo
+    salvarNotificacao,
+    filtrarNotificacoesPorPeriodo,
+    setArquivoPersistencia,
+    resetarNotificacoes
 )
-
-__all__ = ['listarNotificacoes', 'enviarNotificacao', 'filtrarNotificacoesPorPeriodo', 'resetarNotificacoes']
