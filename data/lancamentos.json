@@ -7,7 +7,39 @@
       "data": "2025-06-01T00:00:00",
       "tipo": "receita",
       "categoria": "Salario"
+    },
+    {
+      "id": 19,
+      "descricao": "Conta",
+      "valor": 321.3,
+      "data": "2025-06-27T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Lazer"
+    },
+    {
+      "id": 20,
+      "descricao": "Compras",
+      "valor": 222.4,
+      "data": "2024-04-02T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Outros"
+    },
+    {
+      "id": 21,
+      "descricao": "Compras 2",
+      "valor": 120.3,
+      "data": "2024-04-03T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Outros"
+    },
+    {
+      "id": 22,
+      "descricao": "Compras 3",
+      "valor": 340.0,
+      "data": "2023-12-12T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Outros"
     }
   ],
-  "proximo_id": 19
+  "proximo_id": 23
 }
