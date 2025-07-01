@@ -6,7 +6,9 @@ from .planejamento import (
     calculaDivisaoDoUltimoSalario,
     listarLancamentos,
     obterLimiteDaCategoria,
-    criarLancamentoComPlanejamento
+    criarLancamentoComPlanejamento,
+    setArquivoPersistencia,
+    resetarPlanejamento
 )
 
 __all__ = [
@@ -17,5 +19,7 @@ __all__ = [
     'calculaDivisaoDoUltimoSalario',
     "listarLancamentos",
     "obterLimiteDaCategoria",
-    "criarLancamentoComPlanejamento"
+    "criarLancamentoComPlanejamento",
+    'setArquivoPersistencia',
+    'resetarPlanejamento'
 ]

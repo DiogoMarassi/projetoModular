@@ -32,16 +32,15 @@ _percentuais_padrao: Dict[str, float] = {
 
 _dados_planejamento: Dict[str, object] = {}
 
-_arquivo_dados = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "../../data/planejamento.json")
-)
+_BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+_ARQUIVO_PLANEJAMENTO = os.path.join(_BASE_DIR, "data", "planejamento.json")
 
 
 def _carregar_dados():
     global _dados_planejamento
-    if os.path.exists(_arquivo_dados):
+    if os.path.exists(_ARQUIVO_PLANEJAMENTO):
         try:
-            with open(_arquivo_dados, "r", encoding="utf-8") as f:
+            with open(_ARQUIVO_PLANEJAMENTO, "r", encoding="utf-8") as f:
                 _dados_planejamento = json.load(f)
         except Exception:
             _dados_planejamento = {}
@@ -49,10 +48,25 @@ def _carregar_dados():
 
 def _salvar_dados():
     try:
-        with open(_arquivo_dados, "w", encoding="utf-8") as f:
+        with open(_ARQUIVO_PLANEJAMENTO, "w", encoding="utf-8") as f:
             json.dump(_dados_planejamento, f, indent=4, ensure_ascii=False)
     except Exception:
         pass
+
+def setArquivoPersistencia(caminho: str) -> None:
+    """
+    Altera o caminho do arquivo de persistência (para testes).
+    """
+    global _ARQUIVO_PLANEJAMENTO
+    _ARQUIVO_PLANEJAMENTO = caminho
+    _carregar_dados()
+
+def resetarPlanejamento() -> None:
+    """
+    Limpa todas as notificações em memória (para testes).
+    """
+    global _dados_planejamento
+    _dados_planejamento = []
 
 
 _carregar_dados()

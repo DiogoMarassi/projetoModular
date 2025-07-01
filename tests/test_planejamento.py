@@ -12,19 +12,22 @@ from modulos.lancamento import criarLancamento, resetarDados
 from modulos.planejamento import (
     calculaDivisaoGastos,
     editarDivisaoGastos,
-    obterDivisaoSalva)
+    obterDivisaoSalva,
+    setArquivoPersistencia,
+    resetarPlanejamento)
 
 
 # Caminho do arquivo de dados usado pelo módulo
-CAMINHO_ARQUIVO = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "./data/planejamento.json")
-)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+CAMINHO_ARQUIVO = os.path.join(BASE_DIR, "tests", "data", "planejamento.json")
 
-def teardown_module(module):
-    """
-    Executa após todos os testes.
-    Limpa o arquivo de planejamento criado nos testes.
-    """
+@pytest.fixture(autouse=True)
+def ambiente_limpo():
+    setArquivoPersistencia(CAMINHO_ARQUIVO)
+    resetarPlanejamento()
+    if os.path.exists(CAMINHO_ARQUIVO):
+        os.remove(CAMINHO_ARQUIVO)
+    yield
     if os.path.exists(CAMINHO_ARQUIVO):
         os.remove(CAMINHO_ARQUIVO)
 

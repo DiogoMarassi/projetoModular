@@ -2,5 +2,13 @@
     {
         "data": "2025-06-30T22:34:16",
         "conteudo": "Notificação de teste"
+    },
+    {
+        "data": "2025-06-30T22:36:24",
+        "conteudo": "Atenção! Você ultrapassou o limite planejado para a categoria: Moradia"
+    },
+    {
+        "data": "2025-06-30T22:55:31",
+        "conteudo": "teste 3"
     }
 ]

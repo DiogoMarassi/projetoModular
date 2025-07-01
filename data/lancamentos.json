@@ -2887,7 +2887,15 @@
       "data": "2025-06-15T00:00:00",
       "tipo": "receita",
       "categoria": "Salario"
+    },
+    {
+      "id": 432,
+      "descricao": "Moradia nova",
+      "valor": 8000.0,
+      "data": "2022-01-01T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
     }
   ],
-  "proximo_id": 432
+  "proximo_id": 433
 }
