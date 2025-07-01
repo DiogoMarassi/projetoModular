@@ -3,8 +3,8 @@ from datetime import datetime
 
 # --- Casos de testes automatizados para a geração do relatório ---
 def test_gerar_relatorio_financeiro_sucesso():
-    periodo = {"data_inicio": datetime(2020, 5, 1),
-               "data_final": datetime(2023, 5, 31)
+    periodo = {"data_inicio": datetime(2025, 1, 1),
+               "data_final": datetime(2026, 1, 1)
                 }
     response = gerar_relatorio_financeiro(periodo)
     assert response["Status"] == 200

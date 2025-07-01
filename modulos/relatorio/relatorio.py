@@ -18,7 +18,7 @@ import os
 from fpdf import FPDF
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_ARQUIVO = os.path.join(BASE_DIR, 'data/lancamentos.json')
+_ARQUIVO = os.path.join(BASE_DIR, arquivo_final_dados)
 
 def _carregar_lancamentos():
     if os.path.exists(_ARQUIVO):
@@ -281,7 +281,7 @@ def _categoria_maior_dif_despesa(relatorioano1, relatorioano2):
     return lista_dif_por_cat, [categoria_maior_gasto, categoria_maior_ganho]
 
 
-def gerar_comparativo(ano1, ano2):
+def gerar_comparativo(ano1, ano2, PDF=False):
 
     """
     Compares financial data between two full years.
@@ -429,7 +429,9 @@ def gerar_comparativo(ano1, ano2):
     else:
         resumo += "-- Nenhuma categoria teve redução de despesas. --\n"
 
-    _converter_PDF(resumo, "./tests/pdf_files/comparativos.pdf")
+
+    if PDF:
+        _converter_PDF(resumo, "./tests/pdf_files/comparativos.pdf")
 
 
     comparativo = {

@@ -117,7 +117,7 @@ def menu_relatorio():
         elif opcao == "2":
             ano1 = int(input("Escolha um ano de início: "))
             ano2 = int(input("Escolha o ano de fim: "))
-            response = gerar_comparativo(ano1, ano2)
+            response = gerar_comparativo(ano1, ano2, True)
             if (response["Status"] == 200):
                 print("\nComparativo criado com sucesso:\n")
                 pprint(response, sort_dicts=False)

@@ -4,10 +4,10 @@ from modulos.lancamento import (
     criarLancamento, editarLancamento, removerLancamento,
     listarLancamentos, calcularSaldoMensal
 )
-from modulos.planejamento.planejamento import (
+from modulos.planejamento import (
     calculaDivisaoGastos, editarDivisaoGastos, obterDivisaoSalva
 )
-from modulos.notificacao.notificacao import (
+from modulos.notificacao import (
     salvarNotificacao, listarNotificacoes, resetarNotificacoes
 )
 from modulos.relatorio import gerar_relatorio_financeiro, gerar_comparativo
@@ -116,6 +116,6 @@ def test_gerar_relatorio_e_comparativo(lancamento_teste):
     assert relatorio["Status"] == 200
     assert "saldoInicial" in relatorio["Content"]
 
-    comparativo = gerar_comparativo(2024, 2025)
+    comparativo = gerar_comparativo(2024, 2025, PDF=False)
     assert comparativo["Status"] == 200
     assert "diferencas" in comparativo["Content"]
