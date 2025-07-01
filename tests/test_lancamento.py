@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 
 from modulos.lancamento import *
+from modulos.planejamento import criarLancamentoComPlanejamento
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ARQUIVO_TESTE = os.path.join(BASE_DIR, "tests", "data", "lancamentos.json")
@@ -47,17 +48,17 @@ def dados_validos():
     {"descricao": "X", "valor": 100, "data": datetime(2025, 6, 1), "tipo": "receita", "categoria": "OutroX"},
 ])
 def test_criar_lancamento_dados_invalidos(dados):
-    response = criarLancamento(dados)
+    response = criarLancamentoComPlanejamento(dados)
     assert response["Status"] == 400
 
 def test_criar_lancamento_valido(dados_validos):
-    response = criarLancamento(dados_validos)
+    response = criarLancamentoComPlanejamento(dados_validos)
     assert response["Status"] == 201
     assert response["Content"]["descricao"] == dados_validos["descricao"]
 
 # ---------- TESTES: edição ----------
 def test_editar_lancamento_valido(dados_validos):
-    criado = criarLancamento(dados_validos)
+    criado = criarLancamentoComPlanejamento(dados_validos)
     id_lanc = criado["Content"]["id"]
     novos_dados = dados_validos.copy()
     novos_dados["descricao"] = "Atualizado"

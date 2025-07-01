@@ -14,10 +14,12 @@ import os
 from datetime import datetime
 from typing import List, Dict
 import atexit
-from config import categorias, tipos, arquivo_final_dados
+from config import categorias, tipos
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 _arquivo_dados = os.path.join(BASE_DIR, "data", "lancamentos.json")
+
 # Dados encapsulados - lista de lançamentos em memória
 
 _lancamentos: List[Dict[str, object]] = []
@@ -323,3 +325,14 @@ def calcularSaldoMensal(mes, ano):
             "ano": ano
         }
     }
+
+
+def somarDespesasPorCategoria(categoria: str) -> float:
+    """
+    Retorna a soma de todas as despesas da categoria informada.
+    """
+    return sum(
+        lanc["valor"]
+        for lanc in _lancamentos
+        if lanc["categoria"] == categoria and lanc["tipo"] == "despesa"
+    )

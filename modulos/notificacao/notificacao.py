@@ -82,7 +82,7 @@ def listarNotificacoes() -> Dict[str, Union[int, str, List[Dict[str, str]]]]:
     Returns:
         dict: {"Status": 200, "Content": lista} ou {"Status": 404, "Content": 'Erro ao acessar notificações'}
     """
-    print(_notificacoes)
+    #print(_notificacoes)
     if _notificacoes:
         return {"Status": 200, "Content": _notificacoes}
     else:
@@ -98,7 +98,7 @@ def salvarNotificacao(conteudo: str) -> Dict[str, Union[int, str, List[Dict[str,
     Returns:
         dict: {"Status": 200, "Content": lista atualizada} ou {"Status": 404, ...}
     """
-    print("Entrou em salvarNotificacao")
+
     if not conteudo or not isinstance(conteudo, str) or conteudo.strip() == "":
         return {"Status": 404, "Content": "Usuário não encontrado"}
     
@@ -106,9 +106,9 @@ def salvarNotificacao(conteudo: str) -> Dict[str, Union[int, str, List[Dict[str,
         "data": datetime.now().isoformat(timespec='seconds'),
         "conteudo": conteudo.strip()
     }
-    print(nova)
+
     _notificacoes.append(nova)
-    print(_notificacoes)
+
     return {"Status": 200, "Content": _notificacoes}
 
 def filtrarNotificacoesPorPeriodo(data_inicio: str, data_fim: str) -> Dict[str, Union[int, str, List[Dict[str, str]]]]:

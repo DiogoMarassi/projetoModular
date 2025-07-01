@@ -82,5 +82,17 @@
     {
         "data": "2025-06-30T18:29:36",
         "conteudo": "Gastou muito em COMIDA !!! Vamos querer????"
+    },
+    {
+        "data": "2025-06-30T20:47:11",
+        "conteudo": "Atenção! Você ultrapassou o limite planejado para a categoria: Alimentação"
+    },
+    {
+        "data": "2025-06-30T20:48:24",
+        "conteudo": "Atenção! Você ultrapassou o limite planejado para a categoria: Educação"
+    },
+    {
+        "data": "2025-06-30T21:01:40",
+        "conteudo": "Atenção! Você ultrapassou o limite planejado para a categoria: Moradia"
     }
 ]

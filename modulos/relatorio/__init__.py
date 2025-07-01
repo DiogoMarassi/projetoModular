@@ -5,8 +5,6 @@ from .relatorio import (
     gerar_grafico_pizza_despesas,
 )
 
-
-### __all__ define as funções que podem ser importadas pelo * ###
 __all__ = [
     'gerar_relatorio_financeiro',
     'gerar_comparativo',

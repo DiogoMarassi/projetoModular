@@ -199,7 +199,7 @@ def menu_lancamentos():
                 "categoria": categoria
             }
 
-            response = criarLancamento(dados)
+            response = criarLancamentoComPlanejamento(dados)
             print(response)
 
 

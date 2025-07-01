@@ -5,7 +5,15 @@ from .lancamento import (
     listarLancamentos,
     calcularSaldoMensal,
     resetarDados,
-    setArquivoPersistencia
+    setArquivoPersistencia,
+    somarDespesasPorCategoria
 )
 
-__all__ = ['criarLancamento', 'editarLancamento', 'removerLancamento','listarLancamentos','calcularSaldoMensal', 'setArquivoPersistencia', 'resetarDados']
+__all__ = ['criarLancamento', 
+           'editarLancamento', 
+           'removerLancamento',
+           'listarLancamentos',
+           'calcularSaldoMensal', 
+           'setArquivoPersistencia', 
+           'resetarDados', 
+           "somarDespesasPorCategoria"]

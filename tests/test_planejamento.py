@@ -5,7 +5,6 @@ Arquivo de teste para demonstrar o uso do módulo de planejamentos financeiros
 import os
 import json
 import pytest
-from modulos.lancamento import listarLancamentos
 from modulos import planejamento
 from unittest.mock import patch
 from datetime import datetime

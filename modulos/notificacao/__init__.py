@@ -6,3 +6,12 @@ from .notificacao import (
     setArquivoPersistencia,
     resetarNotificacoes
 )
+
+__all__ = [
+    "listarNotificacoes",
+    "enviarNotificacao",
+    "salvarNotificacao",
+    "filtrarNotificacoesPorPeriodo",
+    "setArquivoPersistencia",
+    "resetarNotificacoes"
+    ]

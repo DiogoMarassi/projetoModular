@@ -2799,7 +2799,63 @@
       "data": "2020-02-02T00:00:00",
       "tipo": "receita",
       "categoria": "Moradia"
+    },
+    {
+      "id": 419,
+      "descricao": "Testando",
+      "valor": 9000000.0,
+      "data": "2025-01-01T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 420,
+      "descricao": "Comida",
+      "valor": 4000.0,
+      "data": "2024-01-01T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 421,
+      "descricao": "asdasdasd",
+      "valor": 4000.0,
+      "data": "2025-01-01T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 422,
+      "descricao": "adasd",
+      "valor": 3000.0,
+      "data": "2023-01-01T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 423,
+      "descricao": "aweawewqeqweqwtqwtq",
+      "valor": 3000.0,
+      "data": "2024-01-01T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Alimentação"
+    },
+    {
+      "id": 424,
+      "descricao": "Testando notifi",
+      "valor": 3000.0,
+      "data": "2024-01-01T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Educação"
+    },
+    {
+      "id": 425,
+      "descricao": "asdasd",
+      "valor": 3200.0,
+      "data": "2025-01-01T00:00:00",
+      "tipo": "despesa",
+      "categoria": "Moradia"
     }
   ],
-  "proximo_id": 419
+  "proximo_id": 426
 }

@@ -14,6 +14,10 @@ import json
 from modulos.lancamento import listarLancamentos
 from typing import Dict
 import atexit
+from modulos.lancamento import criarLancamento, somarDespesasPorCategoria
+from modulos.notificacao import enviarNotificacao
+
+_CHAT_ID_VALIDO = int(os.getenv("TELEGRAM_CHAT_ID", "0"))  # Pode ser mockado
 
 # Dados encapsulados
 _percentuais_padrao: Dict[str, float] = { 
@@ -54,6 +58,26 @@ def _salvar_dados():
 _carregar_dados()
 atexit.register(_salvar_dados)
 
+def criarLancamentoComPlanejamento(dados: dict):
+    """
+    Cria lançamento e verifica se ultrapassa limite planejado da categoria.
+    Notifica se necessário.
+    """
+    response = criarLancamento(dados)
+
+    if response["Status"] != 201:
+        return response
+
+    if dados["tipo"] == "despesa":
+        categoria = dados["categoria"]
+        gasto_total = somarDespesasPorCategoria(categoria)
+        limite = obterLimiteDaCategoria(categoria)
+
+        print(f"Categoria: {categoria}, Gasto Total: {gasto_total}, Limite: {limite}")
+        if gasto_total > limite:
+            enviarNotificacao(_CHAT_ID_VALIDO, "Atenção! Você ultrapassou o limite planejado para a categoria: " + categoria)
+
+    return response
 
 def calculaDivisaoGastos(salarioBaseUsuario):
     """
@@ -143,3 +167,17 @@ def calculaDivisaoDoUltimoSalario():
 
     salario = salario_response["Content"]
     return calculaDivisaoGastos(salario)
+
+import unicodedata
+
+def obterLimiteDaCategoria(categoria: str) -> float:
+    """
+    Retorna o valor limite (planejado) para a categoria.
+    A categoria é normalizada para minúsculas e sem acento.
+    Se não existir planejamento, retorna infinito.
+    """
+    categoria_normalizada = unicodedata.normalize("NFKD", categoria.lower()) \
+                                        .encode("ASCII", "ignore") \
+                                        .decode("ASCII")
+    
+    return _dados_planejamento.get("divisao", {}).get(categoria_normalizada, float("inf"))
