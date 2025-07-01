@@ -14,11 +14,11 @@ import os
 from datetime import datetime
 from typing import List, Dict
 import atexit
-from config import categorias, tipos
+from config import categorias, tipos, arquivo_final_dados
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-_arquivo_dados = os.path.join(BASE_DIR, "data", "lancamentos.json")
+_arquivo_dados = os.path.join(BASE_DIR, arquivo_final_dados)
 
 # Dados encapsulados - lista de lançamentos em memória
 
